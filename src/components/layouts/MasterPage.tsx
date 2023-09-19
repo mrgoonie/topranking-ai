@@ -30,20 +30,13 @@ const MasterPage = (props: IMainProps) => {
 			}
 		})();
 		return () => {};
-	}, []);
+	}, [router.asPath, title]);
 
 	return (
 		<>
 			<Meta title={title} description={props.meta?.description} />
 
 			<Providers {...props}>{props.children}</Providers>
-
-			<div className="circle-bg fixed min-h-screen w-full">
-				<div className="circle-color fixed">
-					<div className="gradient-circle"></div>
-					<div className="gradient-circle two"></div>
-				</div>
-			</div>
 		</>
 	);
 };

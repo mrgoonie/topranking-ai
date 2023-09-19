@@ -5,14 +5,14 @@
 		"package-lock.json": true
 	},
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"editor.formatOnSave": false,
+	"editor.formatOnSave": true,
 	"editor.codeActionsOnSave": ["source.addMissingImports", "source.fixAll.eslint"],
-	"jest.autoRun": {
-		"watch": false // Start the jest with the watch flag
-		// "onStartup": ["all-tests"] // Run all tests upon project launch
-	},
-	"jest.showCoverageOnLoad": true, // Show code coverage when the project is launched
-	"jest.showTerminalOnLaunch": false, // Don't automatically open test explorer terminal on launch
+	// "jest.autoRun": {
+	// "watch": false // Start the jest with the watch flag
+	// "onStartup": ["all-tests"] // Run all tests upon project launch
+	// },
+	// "jest.showCoverageOnLoad": true, // Show code coverage when the project is launched
+	// "jest.showTerminalOnLaunch": false, // Don't automatically open test explorer terminal on launch
 	// Multiple language settings for json and jsonc files
 	"[json][jsonc][yaml]": {
 		"editor.formatOnSave": true,
@@ -29,5 +29,6 @@
 	},
 	"[prisma]": {
 		"editor.defaultFormatter": "Prisma.prisma"
-	}
+	},
+	"tailwindCSS.classAttributes": ["class", "classes", "cl", "className", "ngClass", ".*Styles", ".*Classes"]
 }

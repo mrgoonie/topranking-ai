@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-page-custom-font */
 import Head from "next/head";
 // import Link from "next/link";
 import { useRouter } from "next/router";
@@ -70,6 +71,13 @@ const Meta = (props: IMetaProps) => {
 					name="viewport"
 					key="viewport"
 					content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+				/>
+
+				<link rel="preconnect" href="https://fonts.googleapis.com" />
+				<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+				<link
+					href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
+					rel="stylesheet"
 				/>
 			</Head>
 

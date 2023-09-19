@@ -5,8 +5,9 @@ export const AppConfig = {
 	site_name: "Top Group",
 	locale: "vi",
 
-	title: "NEXTJS + tRPC",
-	description: "Starter",
+	title: "TopRanking.AI",
+	description:
+		"TopRanking.AI surfaces the best new AI products, every day. It's a place for AI-loving enthusiasts to share and geek out about the latest AI apps, SaaS, virtual assistants, generative AI and AI creations.",
 
 	getBaseUrl: (url = "") => {
 		return process.env.NEXT_PUBLIC_BASE_URL ? `${process.env.NEXT_PUBLIC_BASE_URL}${url}` : url;

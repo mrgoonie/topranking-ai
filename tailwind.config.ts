@@ -8,6 +8,10 @@ const config: Config = {
 	],
 	theme: {
 		extend: {
+			colors: {
+				"electric-green": "rgb(74, 201, 126)",
+				"electric-green-hover": "#C8F4B4",
+			},
 			backgroundImage: {
 				"gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
 				"gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
