@@ -13,6 +13,8 @@ import { AppConfig } from "@/config/AppConfig";
 import { api } from "@/plugins/trpc/api";
 
 type UserContextType = {
+	user?: User;
+	token?: string;
 	getProfile: () => Promise<User | null>;
 	onSignOut: () => void;
 	onSignInById: (id: string, options?: SignInOptions) => Promise<SignInResponse | undefined>;
@@ -126,6 +128,8 @@ const UserProvider: React.FC<IUserProvider> = ({ children, isPrivate, ...props }
 		<UserContext.Provider
 			value={{
 				//
+				user,
+				token,
 				getProfile,
 				onSignOut,
 				onSignInById,

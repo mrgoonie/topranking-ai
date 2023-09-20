@@ -17,7 +17,7 @@ const Index = () => {
 		(async () => {
 			signOut({ redirect: false });
 
-			router.push("/login");
+			router.push("/");
 		})();
 		return () => {};
 	}, []);

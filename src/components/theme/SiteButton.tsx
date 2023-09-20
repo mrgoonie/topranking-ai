@@ -13,6 +13,7 @@ export interface BtnProps extends BaseComponentProps {
 	trailIcon?: ReactNode;
 	size?: "lg" | "md" | "sm";
 	fullWidth?: boolean;
+	onClick?: () => void;
 }
 
 const SiteButton = (props?: BtnProps) => {
@@ -64,6 +65,7 @@ const SiteButton = (props?: BtnProps) => {
 		>
 			<div
 				className={`inline-flex text-base font-semibold leading-normal tracking-tight transition-all ${textClasses}`}
+				onClick={props?.onClick}
 			>
 				{props?.leadIcon ? (
 					<>

@@ -5,9 +5,6 @@ import { useDarkMode } from "usehooks-ts";
 
 import { Meta } from "@/components/layouts/Meta";
 
-import SiteFooter from "../theme/SiteFooter";
-import SiteHeader from "../theme/SiteHeader";
-
 const Providers = dynamic(() => import("@/components/context/compose/Providers"), { ssr: false });
 
 interface IMainProps {
@@ -39,15 +36,7 @@ const MasterPage = (props: IMainProps) => {
 		<>
 			<Meta title={title} description={props.meta?.description} />
 
-			<main className={`flex min-h-screen w-full max-w-[1180px] flex-col items-center`}>
-				<SiteHeader />
-
-				<Providers {...props}>{props.children}</Providers>
-
-				<div className="grow" />
-
-				<SiteFooter />
-			</main>
+			<Providers {...props}>{props.children}</Providers>
 		</>
 	);
 };

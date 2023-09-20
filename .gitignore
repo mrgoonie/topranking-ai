@@ -84,3 +84,6 @@ gcloud-service-account.json
 
 public/**/*-webp/
 public/**/*-thumb-webp/
+
+# pnpm prisma
+prisma/prisma-client

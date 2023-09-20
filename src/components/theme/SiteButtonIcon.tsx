@@ -13,6 +13,7 @@ export interface IconBtnProps extends BaseComponentProps {
 	icon?: ReactNode;
 	trailIcon?: ReactNode;
 	size?: "lg" | "md" | "sm";
+	onClick?: () => void;
 }
 
 const SiteButtonIcon = (props?: IconBtnProps) => {
@@ -56,6 +57,7 @@ const SiteButtonIcon = (props?: IconBtnProps) => {
 				`group transition-all cursor-pointer w-[52px] h-[52px] rounded-xl justify-center items-center gap-3 inline-flex`,
 				bgClasses,
 			].join(" ")}
+			onClick={props?.onClick}
 		>
 			<div
 				className={`flex flex-col items-center text-xs font-semibold leading-normal tracking-tight transition-all ${textClasses}`}
