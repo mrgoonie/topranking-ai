@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import { createContext, memo, useEffect, useMemo, useState } from "react";
 
 import { useListener } from "@/components/context/ListenerProvider";
-import { IsLocal } from "@/config/AppConfig";
 import asset from "@/plugins/asset";
 
 const QrUrl = dynamic(() => import("@/components/qr/QrUrl"), { ssr: false });
@@ -21,12 +20,6 @@ const WindowGateProvider = ({ children, ...props }: any) => {
 
 	const listener = useListener();
 
-	if (listener) {
-		listener.useSubscription((e: any) => {
-			onListen(e);
-		});
-	}
-
 	const onListen = (e: any) => {
 		const { type, data } = e;
 		switch (type) {
@@ -42,6 +35,12 @@ const WindowGateProvider = ({ children, ...props }: any) => {
 		}
 	};
 
+	if (listener) {
+		listener.useSubscription((e: any) => {
+			onListen(e);
+		});
+	}
+
 	const gate = useMemo(() => {
 		const { width, height } = size;
 
@@ -53,38 +52,34 @@ const WindowGateProvider = ({ children, ...props }: any) => {
 					</div>
 				);
 
-			case !isMobile():
-				{
-					return (
-						<div className="holderGate">
-							<style jsx>{`
-								.gateText {
-									text-align: -webkit-center;
-								}
-							`}</style>
+			case !isMobile(): {
+				return (
+					<div className="holderGate">
+						<style jsx>{`
+							.gateText {
+								text-align: -webkit-center;
+							}
+						`}</style>
 
-							<div className="hol gateText">
-								<h2 className="text-3xl">
-									Vui lòng truy cập trên thiết bị di động để có trải nghiệm tốt nhất.
-								</h2>
-								<QrUrl />
-							</div>
-
-							<img
-								className="non-drag fixed m-6 w-1/3 max-w-[150px]"
-								src={asset("/images-webp/textures/game/logo.webp")}
-								alt=""
-							/>
+						<div className="hol gateText">
+							<h2 className="text-3xl">
+								Vui lòng truy cập trên thiết bị di động để có trải nghiệm tốt nhất.
+							</h2>
+							<QrUrl />
 						</div>
-					);
-				}
-				break;
+
+						<img
+							className="non-drag fixed m-6 w-1/3 max-w-[150px]"
+							src={asset("/images-webp/textures/game/logo.webp")}
+							alt=""
+						/>
+					</div>
+				);
+			}
 
 			default:
 				return <></>;
 		}
-
-		return <></>;
 	}, [canAccess, JSON.stringify(size)]);
 
 	useEffect(() => {

@@ -1,6 +1,8 @@
 # Ignore artifacts:
 build
 coverage
+out
+dist
 
 .next
 node_modules
@@ -8,6 +10,7 @@ node_modules
 .out
 .turbo
 .temp
+.hustky
 
 public
 package.json

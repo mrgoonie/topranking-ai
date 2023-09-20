@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import React, { HTMLAttributes, ReactElement } from "react";
+import React from "react";
 
 import type { BaseComponentProps } from "./ComponentProps";
 
@@ -55,7 +55,7 @@ const ThemeButton = (props?: BtnProps) => {
 				bgClasses,
 			].join(" ")}
 		>
-			<div className={`transition-all text-base font-semibold leading-normal tracking-tight ${textClasses}`}>
+			<div className={`text-base font-semibold leading-normal tracking-tight transition-all ${textClasses}`}>
 				{props?.leadIcon ? (
 					<>
 						{props?.leadIcon}

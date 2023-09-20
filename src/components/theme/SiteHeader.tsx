@@ -10,7 +10,7 @@ interface SiteHeaderProps extends BaseComponentProps {}
 
 const SiteHeader = (props?: SiteHeaderProps) => {
 	return (
-		<div className="flex items-center w-full py-6">
+		<div className="flex w-full items-center py-6">
 			<div className="flex items-center gap-4">
 				<SiteLogo href="/" wrapperStyle={{ width: `240px` }} />
 				<Input prefix={<SearchOutlined />} size="large" placeholder="Search (Cmd + K)" />

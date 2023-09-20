@@ -6,7 +6,7 @@
 	},
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"editor.formatOnSave": true,
-	"editor.codeActionsOnSave": ["source.addMissingImports", "source.fixAll.eslint"],
+	"editor.codeActionsOnSave": ["source.addMissingImports", "source.organizeImports", "source.fixAll"],
 	// "jest.autoRun": {
 	// "watch": false // Start the jest with the watch flag
 	// "onStartup": ["all-tests"] // Run all tests upon project launch
@@ -19,15 +19,23 @@
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"[typescriptreact]": {
+		"editor.formatOnSave": true,
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"[typescript]": {
+		"editor.formatOnSave": true,
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.formatOnSave": true
+	},
 	"[postcss]": {
+		"editor.formatOnSave": true,
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"[prisma]": {
+		"editor.formatOnSave": true,
 		"editor.defaultFormatter": "Prisma.prisma"
 	},
 	"tailwindCSS.classAttributes": ["class", "classes", "cl", "className", "ngClass", ".*Styles", ".*Classes"]

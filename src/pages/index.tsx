@@ -1,9 +1,8 @@
-import { BulbOutlined, HomeOutlined } from "@ant-design/icons";
+import { BulbOutlined } from "@ant-design/icons";
 import { Alert } from "antd";
 import Link from "next/link";
 
 import MasterPage from "@/components/layouts/MasterPage";
-import CategoryBtn from "@/components/theme/CategoryBtn";
 import CategoryGroup from "@/components/theme/CategoryGroup";
 import RankList from "@/components/theme/RankList";
 import SiteFooter from "@/components/theme/SiteFooter";
@@ -12,7 +11,7 @@ import SiteHeader from "@/components/theme/SiteHeader";
 export default function Home() {
 	return (
 		<MasterPage meta={{ title: "Home" }}>
-			<main className={`flex w-full min-h-screen max-w-[1180px] flex-col items-center`}>
+			<main className={`flex min-h-screen w-full max-w-[1180px] flex-col items-center`}>
 				<SiteHeader />
 
 				<Alert

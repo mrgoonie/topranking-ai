@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
 	return (
 		<MasterPage meta={{ title: "Home" }}>
-			<main className={`flex w-full min-h-screen max-w-[1180px] flex-col items-center ${inter.className}`}>
+			<main className={`flex min-h-screen w-full max-w-[1180px] flex-col items-center ${inter.className}`}>
 				<SiteHeader />
 				<CategoryBtn>Test</CategoryBtn>
 

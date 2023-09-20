@@ -38,7 +38,7 @@ Thumbs.db
 optimizer/node_modules/
 optimizer/yarn.lock
 
-# debug
+# builder (npm, pnpm, yarn, bun)
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -51,7 +51,7 @@ yarn.lock
 .pnp.loader.mjs
 package-lock.json
 pnpm-lock.yaml
-
+tsconfig.tsbuildinfo
 
 # dotenv local files
 .env

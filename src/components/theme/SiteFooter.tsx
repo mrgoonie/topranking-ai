@@ -8,13 +8,13 @@ interface SiteFooterProps extends BaseComponentProps {}
 
 const SiteFooter = (props?: SiteFooterProps) => {
 	return (
-		<div className="flex flex-col items-center w-full max-w-md border-t border-t-neutral-600 text-center pb-6">
+		<div className="flex w-full max-w-md flex-col items-center border-t border-t-neutral-600 pb-6 text-center">
 			<p className="w-full py-5">
 				Copyright © 2023 - Made with ❤️ by{" "}
 				<Link
 					href="https://wearetopgroup.com/?ref=toprankingai"
 					target="_blank"
-					className="text-electric-green font-semibold"
+					className="font-semibold text-electric-green"
 				>
 					T.O.P Group
 				</Link>
