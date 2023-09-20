@@ -7,12 +7,7 @@ const PageLogin = dynamic(() => import("@/components/router/examples/PageLogin")
 const Login = (props: any) => {
 	return (
 		<>
-			<MasterPageAuth
-				meta={{
-					title: "Login",
-				}}
-				{...props}
-			>
+			<MasterPageAuth meta={{ title: "Login" }} {...props}>
 				<PageLogin {...props} />
 			</MasterPageAuth>
 		</>

@@ -44,6 +44,12 @@ export const api: CreateTRPCReturnType = createTRPCNext<AppRouter>({
 					url: `${getBaseUrl()}/api/trpc`,
 				}),
 			],
+
+			queryClientConfig: {
+				defaultOptions: {
+					queries: { staleTime: 5000, refetchOnWindowFocus: false },
+				},
+			},
 		};
 	},
 	/**

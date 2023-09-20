@@ -1,22 +1,18 @@
-import React from "react";
+import type { BaseComponentProps } from "./ComponentProps";
+import type { RankItemProps } from "./RankItem";
+import RankItem from "./RankItem";
 
-const RankList = () => {
+export interface RankListDataItem extends RankItemProps {}
+
+interface RankListProps extends BaseComponentProps {
+	dataSource?: RankListDataItem[];
+	renderItem?: (item: RankListDataItem, index: number) => any;
+}
+
+const RankList = (props?: RankListProps) => {
 	return (
-		<div className="flex flex-col gap-5">
-			<div>123</div>
-			<div>123</div>
-			<div>123</div>
-			<div>123</div>
-			<div>123</div>
-			<div>123</div>
-			<div>123</div>
-			<div>123</div>
-			<div>123</div>
-			<div>123</div>
-			<div>123</div>
-			<div>123</div>
-			<div>123</div>
-			<div>123</div>
+		<div className="flex w-full flex-col gap-5">
+			{props?.dataSource?.map((item, i) => <RankItem key={`rank-item-${item.rank ?? i}`} {...item} />)}
 		</div>
 	);
 };

@@ -5,7 +5,7 @@ import Timer from "diginext-utils/dist/Timer";
 import { useRouter } from "next/router";
 import type { SignInOptions, SignInResponse } from "next-auth/react";
 import { signIn, signOut, useSession } from "next-auth/react";
-import React, { FC, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { useStorage } from "@/components/context/StorageProvider";
 import PageLogin from "@/components/router/examples/PageLogin";
@@ -93,12 +93,8 @@ const UserProvider: React.FC<IUserProvider> = ({ children, isPrivate, ...props }
 	};
 
 	const getProfile = async () => {
-		//
 		const res = await refetch();
-		if (res.isSuccess) {
-			return res.data;
-		}
-
+		if (res.isSuccess) return res.data;
 		return null;
 	};
 

@@ -1,5 +1,4 @@
 /* eslint-disable import/extensions */
-import React from "react";
 
 import Compose from "@/components/context/compose/Compose";
 import RoleProvider from "@/components/context/RoleProvider";

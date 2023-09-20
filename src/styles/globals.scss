@@ -54,3 +54,13 @@ a {
 		0px 24px 24px -16px rgba(0, 0, 0, 0.1),
 		16px 24px 64px -24px rgba(255, 255, 255, 0.08) inset;
 }
+
+.bg-gradient-green-blue {
+	background: linear-gradient(225deg, rgb(48, 69, 201) 0%, rgb(101, 190, 218) 45.3125%, rgb(154, 211, 127) 100%);
+	background-clip: text;
+	-webkit-background-clip: text;
+}
+
+.text-gradient-green-blue {
+	@apply bg-gradient-green-blue text-center text-3xl font-bold leading-10 text-transparent;
+}

@@ -12,36 +12,41 @@ export interface BtnProps extends BaseComponentProps {
 	leadIcon?: ReactNode;
 	trailIcon?: ReactNode;
 	size?: "lg" | "md" | "sm";
+	fullWidth?: boolean;
 }
 
-const ThemeButton = (props?: BtnProps) => {
+const SiteButton = (props?: BtnProps) => {
 	const type = props?.type || "primary";
 	const bgClasses =
 		type === "primary"
-			? "bg-lime-200 hover:bg-lime-100"
+			? "border-[3px] border-lime-200 bg-lime-200 hover:bg-lime-100 [&.active]:bg-lime-100"
 			: type === "tertiary"
-			? "bg-zinc-900 hover:bg-neutral-700"
+			? "bg-neutral-800 hover:bg-neutral-700 [&.active]:bg-neutral-700"
 			: type === "secondary"
-			? "border-[3px] border-electric-green hover:border-electric-green-hover"
+			? "border-[3px] border-electric-green hover:border-electric-green-hover [&.active]:border-electric-green-hover"
 			: type === "glass"
-			? "glass-btn hover:bg-[#d7eded]/[.1]"
+			? "glass-btn hover:bg-[#d7eded]/[.1] [&.active]:bg-[#d7eded]/[.1]"
 			: "";
 	const textClasses =
 		type === "primary"
 			? "text-slate-900"
 			: type === "secondary"
-			? "text-electric-green group-hover:text-electric-green-hover"
+			? "text-electric-green group-hover:text-electric-green-hover group-[.active]:text-electric-green-hover"
 			: type === "tertiary"
-			? "hover:text-neutral-300"
+			? "group-hover:text-neutral-300"
 			: type === "ghost"
-			? "text-neutral-500 group-hover:text-neutral-400"
+			? "text-neutral-500 group-hover:text-neutral-400 group-[.active]:text-neutral-400"
 			: type === "glass"
-			? "text-neutral-400 group-hover:text-neutral-300"
+			? "text-neutral-400 group-hover:text-neutral-300 group-[.active]:text-neutral-300"
 			: "";
 
 	const linkWrapper = (children: ReactNode) =>
 		props?.href ? (
-			<Link href={props.href} target={props.target}>
+			<Link
+				href={props.href}
+				target={props.target}
+				className={`inline-flex ${props?.fullWidth ? "flex flex-grow" : ""}`}
+			>
 				{children}
 			</Link>
 		) : (
@@ -51,11 +56,15 @@ const ThemeButton = (props?: BtnProps) => {
 	return linkWrapper(
 		<div
 			className={[
-				`group transition-all cursor-pointer px-6 py-3 rounded-xl justify-center items-center gap-3 inline-flex`,
+				props?.active ? "active" : "",
+				props?.fullWidth ? "flex flex-grow" : "",
+				`group transition-all cursor-pointer box-border px-6 py-3 rounded-xl justify-center items-center gap-3 inline-flex`,
 				bgClasses,
 			].join(" ")}
 		>
-			<div className={`text-base font-semibold leading-normal tracking-tight transition-all ${textClasses}`}>
+			<div
+				className={`inline-flex text-base font-semibold leading-normal tracking-tight transition-all ${textClasses}`}
+			>
 				{props?.leadIcon ? (
 					<>
 						{props?.leadIcon}
@@ -74,4 +83,4 @@ const ThemeButton = (props?: BtnProps) => {
 	);
 };
 
-export default ThemeButton;
+export default SiteButton;

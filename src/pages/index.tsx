@@ -1,47 +1,16 @@
-import { BulbOutlined } from "@ant-design/icons";
-import { Alert } from "antd";
-import Link from "next/link";
-
-import MasterPage from "@/components/layouts/MasterPage";
+import MasterPageAuth from "@/components/layouts/MasterPageAuth";
 import CategoryGroup from "@/components/theme/CategoryGroup";
-import RankList from "@/components/theme/RankList";
-import SiteFooter from "@/components/theme/SiteFooter";
-import SiteHeader from "@/components/theme/SiteHeader";
+import RankTable from "@/components/theme/RankTable";
+import WelcomePanel from "@/components/theme/WelcomePanel";
 
 export default function Home() {
 	return (
-		<MasterPage meta={{ title: "Home" }}>
-			<main className={`flex min-h-screen w-full max-w-[1180px] flex-col items-center`}>
-				<SiteHeader />
+		<MasterPageAuth meta={{ title: "Home" }}>
+			<WelcomePanel />
 
-				<Alert
-					message={
-						<h1 className="text-2xl">
-							Welcome to <strong className="text-electric-green">TopRanking.AI</strong> ! 👋
-						</h1>
-					}
-					description={
-						<span className="text-neutral-400">
-							The place to discover and vote for new AI products. Don’t see your AI products?{" "}
-							<Link href="/submit">
-								<strong>Submit now</strong>
-							</Link>
-							.
-						</span>
-					}
-					type="info"
-					showIcon
-					icon={<BulbOutlined />}
-				/>
+			<CategoryGroup />
 
-				<CategoryGroup />
-
-				<div className="grow" />
-
-				<RankList />
-
-				<SiteFooter />
-			</main>
-		</MasterPage>
+			<RankTable />
+		</MasterPageAuth>
 	);
 }

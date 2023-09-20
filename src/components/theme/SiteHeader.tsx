@@ -1,10 +1,9 @@
 import { SearchOutlined } from "@ant-design/icons";
 import { Input } from "antd";
-import React from "react";
 
 import type { BaseComponentProps } from "./ComponentProps";
+import SiteButton from "./SiteButton";
 import SiteLogo from "./SiteLogo";
-import ThemeButton from "./ThemeButton";
 
 interface SiteHeaderProps extends BaseComponentProps {}
 
@@ -14,13 +13,13 @@ const SiteHeader = (props?: SiteHeaderProps) => {
 			<div className="flex items-center gap-4">
 				<SiteLogo href="/" wrapperStyle={{ width: `240px` }} />
 				<Input prefix={<SearchOutlined />} size="large" placeholder="Search (Cmd + K)" />
-				<ThemeButton type="ghost" href="/about">
+				<SiteButton type="ghost" href="/about">
 					About
-				</ThemeButton>
+				</SiteButton>
 			</div>
 			<div className="grow" />
 			<div className="flex-none">
-				<ThemeButton href="/submit">Submit AI</ThemeButton>
+				<SiteButton href="/submit">Submit AI</SiteButton>
 			</div>
 		</div>
 	);
