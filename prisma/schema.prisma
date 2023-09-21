@@ -60,7 +60,7 @@ model Blog {
     imageUrl         String?
     title            String?
     desc             String?
-    keywords         String?
+    keywords         String[]
     slug             String
     name             String?
     thumb            String?
@@ -91,12 +91,21 @@ model User {
     Account           Account[]
     userRoles         UserRole[]
 
+    // Blogs
     ownedBlogs     Blog[] @relation("OwnerRelation")
     updatedBlogs   Blog[] @relation("UpdatedByRelation")
     publishedBlogs Blog[] @relation("PublishedByRelation")
 
     readBlogIds String[] @db.ObjectId
     readBlogs   Blog[]   @relation("BlogToReaders", fields: [readBlogIds], references: [id])
+
+    // Products
+    ownedProducts     Product[] @relation("OwnerRelation")
+    updatedProducts   Product[] @relation("UpdatedByRelation")
+    publishedProducts Product[] @relation("PublishedByRelation")
+
+    voteProductIds String[]  @db.ObjectId
+    voteProducts   Product[] @relation("ProductToVoters", fields: [readBlogIds], references: [id])
 }
 
 model Role {
@@ -132,4 +141,64 @@ model RolePermission {
     permission   Permission @relation(fields: [permissionId], references: [id])
 
     @@unique([roleId, permissionId])
+}
+
+model ProductCategory {
+    id          String    @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime?
+    publishedAt DateTime?
+    scheduledAt DateTime?
+
+    name     String
+    slug     String
+    desc     String?
+    thumb    String?
+    imageUrl String?
+
+    productIds String[]  @db.ObjectId
+    products   Product[] @relation("ProductToCategories", fields: [productIds], references: [id])
+}
+
+model Product {
+    id            String    @id @default(auto()) @map("_id") @db.ObjectId
+    owner         User      @relation("OwnerRelation", fields: [ownerId], references: [id])
+    ownerId       String    @db.ObjectId
+    createdAt     DateTime  @default(now())
+    updatedAt     DateTime?
+    updatedBy     User?     @relation("UpdatedByRelation", fields: [updatedById], references: [id])
+    updatedById   String?   @db.ObjectId
+    publishedAt   DateTime?
+    publishedBy   User?     @relation("PublishedByRelation", fields: [publishedById], references: [id])
+    publishedById String?   @db.ObjectId
+    scheduledAt   DateTime?
+
+    url              String
+    name             String?
+    slug             String   @unique
+    title            String?
+    intro            String?
+    desc             String?
+    keywords         String[]
+    content          String?
+    titleNoUnicode   String?
+    contentNoUnicode String?
+    imageUrl         String?
+    thumb            String?
+    images           String[] @default([])
+    tags             String[] @default([]) // Hashtags: #productivity, #ceo, #marketing,...
+    viewCount        Int      @default(0)
+
+    // categories
+    categories  ProductCategory[] @relation("ProductToCategories", fields: [categoryIds], references: [id])
+    categoryIds String[]          @db.ObjectId
+
+    rank      Int?
+    voterIds  String[] @db.ObjectId
+    voters    User[]   @relation("ProductToVoters", fields: [voterIds], references: [id])
+    voteCount Int      @default(0)
+
+    @@index([ownerId], name: "idx_product_ownerId")
+    @@index([updatedById], name: "idx_product_updatedById")
+    @@index([publishedById], name: "idx_product_publishedById")
 }

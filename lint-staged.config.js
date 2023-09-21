@@ -1,5 +1,5 @@
 module.exports = {
-	"*": () => ["bun run check-secret", "bun run format"],
+	"*": () => ["pnpm check-secret", "pnpm format"],
 	"*.{js,jsx,ts,tsx}": ["eslint --fix", "eslint"],
-	"**/*.ts?(x)": () => "bun run check-types",
+	"**/*.ts?(x)": () => "pnpm check-types",
 };
