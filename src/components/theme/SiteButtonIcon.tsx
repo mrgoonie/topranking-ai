@@ -54,7 +54,7 @@ const SiteButtonIcon = (props?: IconBtnProps) => {
 		<div
 			className={[
 				props?.active ? "active" : "",
-				`group transition-all cursor-pointer w-[52px] h-[52px] rounded-xl justify-center items-center gap-3 inline-flex`,
+				`group transition-all cursor-pointer w-[52px] h-[52px] rounded-xl justify-center items-center gap-3 inline-flex flex-none`,
 				bgClasses,
 			].join(" ")}
 			onClick={props?.onClick}

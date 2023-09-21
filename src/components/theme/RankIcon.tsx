@@ -51,9 +51,13 @@ const RankIcon = (props?: IconBtnProps) => {
 		<div
 			className={[
 				props?.active ? "active" : "",
-				`group transition-all w-[52px] h-[52px] rounded-xl justify-center items-center gap-3 inline-flex`,
+				`group transition-all rounded-xl justify-center items-center gap-3 inline-flex flex-none`,
 				bgClasses,
 			].join(" ")}
+			style={{
+				width: props?.size === "sm" ? 40 : props?.size === "lg" ? 64 : 52,
+				height: props?.size === "sm" ? 40 : props?.size === "lg" ? 64 : 52,
+			}}
 		>
 			<div
 				className={`flex flex-col items-center text-base font-semibold leading-normal tracking-tight transition-all ${textClasses}`}

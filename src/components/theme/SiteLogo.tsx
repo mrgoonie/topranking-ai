@@ -2,7 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-interface LogoProps {
+import type { BaseComponentProps } from "./ComponentProps";
+
+interface LogoProps extends BaseComponentProps {
 	href?: string;
 	wrapperStyle?: React.CSSProperties;
 }
@@ -11,25 +13,25 @@ const SiteLogo = (props?: LogoProps) => {
 	return (
 		<>
 			{props?.href ? (
-				<Link href={props?.href} style={props?.wrapperStyle}>
+				<Link className={props?.className} href={props?.href} style={props?.wrapperStyle}>
 					<Image
 						src="/images/topranking-logo.svg"
 						alt="topranking ai logo"
 						width={240}
 						height={40}
-						style={{ height: "100%", width: "auto", display: "inline-block", maxWidth: "unset" }}
+						// style={{ height: "100%", width: "auto", display: "inline-block" }}
 					/>
 				</Link>
 			) : (
-				<span style={props?.wrapperStyle}>
+				<div className={props?.className} style={props?.wrapperStyle}>
 					<Image
 						src="/images/topranking-logo.svg"
 						alt="topranking ai logo"
 						width={240}
 						height={40}
-						style={{ height: "100%", width: "auto", display: "inline-block", maxWidth: "unset" }}
+						// style={{ height: "100%", width: "auto", display: "inline-block" }}
 					/>
-				</span>
+				</div>
 			)}
 		</>
 	);

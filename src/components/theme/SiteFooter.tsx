@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 
 import type { BaseComponentProps } from "./ComponentProps";
 
@@ -8,7 +7,7 @@ interface SiteFooterProps extends BaseComponentProps {}
 
 const SiteFooter = (props?: SiteFooterProps) => {
 	return (
-		<div className="flex w-full max-w-md flex-col items-center border-t border-t-neutral-600 pb-6 text-center">
+		<div className="flex w-full max-w-md flex-col items-center border-t border-t-neutral-600 pb-6 text-center text-xs md:text-sm">
 			<p className="w-full py-5">
 				Copyright © 2023 - Made with ❤️ by{" "}
 				<Link
