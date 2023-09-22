@@ -7,7 +7,7 @@ import { aiModels } from "./ai-api";
  * @returns {string[]}
  */
 export async function classifyKeywords(input) {
-	const prompt = `give me the list of main keywords in this paragraph in JSON as { "keywords": [ ... ] }, don't include any explanations in your response: "${input}"`;
+	const prompt = `give me up to 8 main keywords in this paragraph in JSON format as { "keywords": [ ... ] }, don't include any explanations in your response: \n"${input}"`;
 	const json = await askAi(prompt, aiModels[0]);
 	if (json.error) {
 		console.warn(`[AI] Unable to classify keywords.`);

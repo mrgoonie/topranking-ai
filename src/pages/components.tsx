@@ -1,6 +1,7 @@
 import { HomeOutlined } from "@ant-design/icons";
 
-import MasterPage from "@/components/layouts/MasterPage";
+import MasterPageAuth from "@/components/layouts/MasterPageAuth";
+import CrawlerTest from "@/components/tests/crawler";
 import CategoryButton from "@/components/theme/CategoryButton";
 import RankList from "@/components/theme/RankList";
 import SiteButton from "@/components/theme/SiteButton";
@@ -9,7 +10,7 @@ import SiteHeader from "@/components/theme/SiteHeader";
 
 export default function Home() {
 	return (
-		<MasterPage meta={{ title: "Home" }}>
+		<MasterPageAuth meta={{ title: "Home" }}>
 			<main className={`flex min-h-screen w-full max-w-[1180px] flex-col items-center`}>
 				<SiteHeader />
 
@@ -117,29 +118,34 @@ export default function Home() {
 								rank: "01",
 								title: "Ultimate Free Online Teleprompter",
 								desc: "Speak with confidence, no one will know there's a script",
-								hashtags: ["#marketing", "#productivity", "#seo"],
+								tags: ["#marketing", "#productivity", "#seo"],
 							},
 							{
 								rank: "02",
 								title: "Ultimate Free Online Teleprompter",
 								desc: "Speak with confidence, no one will know there's a script",
-								hashtags: ["#marketing", "#productivity", "#seo"],
+								tags: ["#marketing", "#productivity", "#seo"],
 							},
 							{
 								rank: "03",
 								title: "Ultimate Free Online Teleprompter",
 								desc: "Speak with confidence, no one will know there's a script",
-								hashtags: ["#marketing", "#productivity", "#seo"],
+								tags: ["#marketing", "#productivity", "#seo"],
 							},
 							{
 								title: "Ultimate Free Online Teleprompter",
 								desc: "Speak with confidence, no one will know there's a script",
-								hashtags: ["#marketing", "#productivity", "#seo"],
+								tags: ["#marketing", "#productivity", "#seo"],
 							},
 						]}
 					/>
 				</div>
+
+				{/* TEST: Crawler */}
+				<CrawlerTest />
+
+				{/* END */}
 			</main>
-		</MasterPage>
+		</MasterPageAuth>
 	);
 }

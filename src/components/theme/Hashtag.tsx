@@ -10,7 +10,7 @@ interface HashtagProps extends BaseComponentProps {
 const Hashtag = (props?: HashtagProps) => {
 	return (
 		<Link href={props?.href ?? "#"} target={props?.target ?? "_self"}>
-			<span className="text-xs font-normal leading-[18px] tracking-tight text-indigo-300 transition-colors hover:text-indigo-200">
+			<span className="whitespace-nowrap text-xs font-normal leading-[18px] tracking-tight text-indigo-300 transition-colors hover:text-indigo-200">
 				{props?.children ?? "#hashtag"}
 			</span>
 		</Link>

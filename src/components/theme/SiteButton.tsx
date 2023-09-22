@@ -12,6 +12,10 @@ export interface BtnProps extends BaseComponentProps {
 	leadIcon?: ReactNode;
 	trailIcon?: ReactNode;
 	size?: "lg" | "md" | "sm";
+	/**
+	 * @default "button"
+	 */
+	htmlType?: "button" | "reset" | "submit";
 	fullWidth?: boolean;
 	onClick?: () => void;
 }
@@ -55,16 +59,17 @@ const SiteButton = (props?: BtnProps) => {
 		);
 
 	return linkWrapper(
-		<div
+		<button
 			className={[
 				props?.active ? "active" : "",
 				props?.fullWidth ? "flex flex-grow" : "",
 				`group transition-all cursor-pointer box-border px-6 py-3 rounded-xl justify-center items-center gap-3 inline-flex`,
 				bgClasses,
 			].join(" ")}
+			type={props?.htmlType ? props?.htmlType : "button"}
 		>
 			<div
-				className={`inline-flex text-base font-semibold leading-normal tracking-tight transition-all ${textClasses}`}
+				className={`inline-flex whitespace-nowrap text-base font-semibold leading-normal tracking-tight transition-all ${textClasses}`}
 				onClick={props?.onClick}
 			>
 				{props?.leadIcon ? (
@@ -81,7 +86,7 @@ const SiteButton = (props?: BtnProps) => {
 					</>
 				) : null}
 			</div>
-		</div>
+		</button>
 	);
 };
 

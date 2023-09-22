@@ -12,7 +12,9 @@ interface RankListProps extends BaseComponentProps {
 const RankList = (props?: RankListProps) => {
 	return (
 		<div className={`flex w-full flex-col gap-5 ${props?.className ?? ""}`} style={props?.style}>
-			{props?.dataSource?.map((item, i) => <RankItem key={`rank-item-${item.rank ?? i}`} {...item} />)}
+			{props?.dataSource?.map((item, i) => (
+				<RankItem key={`rank-item-${item.rank ?? i}`} {...item} rank={`${i + 1}`} />
+			))}
 		</div>
 	);
 };

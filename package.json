@@ -76,7 +76,7 @@
     "@semantic-release/git": "^10.0.1",
     "@tailwindcss/typography": "^0.5.10",
     "@types/eslint": "^8.44.2",
-    "@types/prettier": "^3.0.0",
+    "@types/lodash": "^4.14.198",
     "@typescript-eslint/eslint-plugin": "^6.7.0",
     "@typescript-eslint/parser": "^6.7.0",
     "commitizen": "^4.3.0",

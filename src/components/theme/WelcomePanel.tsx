@@ -16,7 +16,7 @@ const WelcomePanel = (props?: WelcomePanelProps) => {
 			}
 			description={
 				<span className="text-neutral-400">
-					The place to discover and vote for new AI products. Don’t see your AI products?{" "}
+					The place to discover and vote for new AI-powered products. Don&apos;t see your AI products?{" "}
 					<Link href="/submit">
 						<strong>Submit now</strong>
 					</Link>

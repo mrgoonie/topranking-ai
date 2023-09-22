@@ -1,11 +1,14 @@
-import type { PrismaClient } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
+import { askAi } from "@/plugins/ask-ai";
+import { aiModels } from "@/plugins/ask-ai/ai-api";
 import { classifyKeywords } from "@/plugins/ask-ai/classify-keywords";
 import { crawlWebpage } from "@/plugins/crawler/crawl-webpage";
 import { makeSlug } from "@/plugins/utils/slug";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
+
+import type { PrismaClient } from "../../../../prisma/prisma-client";
 
 export const getOrInsertCategories = async (categoryList: string[], prisma: PrismaClient) => {
 	const categoryIds = await Promise.all(
@@ -53,24 +56,60 @@ export const productRouter = createTRPCRouter({
 						itemPerPage: z.number(),
 					})
 					.optional(),
+				orderBy: z
+					.any()
+					.array()
+					.default([{ createdAt: "desc" }, { updatedAt: "desc" }]),
 			})
 		)
 		.query(async ({ input, ctx }) => {
+			const total_items = await ctx.prisma.product.count({
+				where: { tags: { hasEvery: input.filter?.tags || [] } },
+			});
 			const skip = input.pagination ? input.pagination?.itemPerPage * (input.pagination?.page - 1) : undefined;
 			const take = input.pagination ? input.pagination?.itemPerPage : undefined;
+			const total_pages = typeof take !== "undefined" ? Math.ceil(total_items / take) : 0;
+
 			const data = await ctx.prisma.product.findMany({
 				where: { tags: { hasEvery: input.filter?.tags || [] } },
-				orderBy: [{ createdAt: "desc" }, { updatedAt: "desc" }],
+				orderBy: [],
 				skip,
 				take,
 			});
-			return data;
+			return { data, pagination: { ...input.pagination, total_items, total_pages } };
 		}),
 	getById: publicProcedure.input(z.string()).query(({ input, ctx }) => {
 		return ctx.prisma.product.findFirst({ where: { id: input } });
 	}),
 	getBySlug: publicProcedure.input(z.string()).query(({ input, ctx }) => {
 		return ctx.prisma.product.findFirst({ where: { slug: input } });
+	}),
+	crawl: publicProcedure.input(z.string()).mutation(async ({ input, ctx }) => {
+		const urlStr = input.replace(/www./i, "");
+		const siteUrl = new URL(`https://${urlStr}`);
+
+		const webpageData = await crawlWebpage(siteUrl.toString(), {
+			isDebugging: true,
+			removeHtml: true,
+			removeJsCss: true,
+			removeSpaceTab: true,
+		});
+
+		// use AI to summarize the website content
+		console.log(`[CRAWL] Summarizing content...`);
+		const summaryResult = await askAi(`Summarize this content:\n${webpageData.content}`, aiModels[1]);
+		const summary = summaryResult.error ? "" : (summaryResult.content || [""]).join("");
+
+		// use AI to classify keywords
+		console.log(`[CRAWL] Classifying keywords...`);
+		const keywords = await classifyKeywords(summary);
+
+		const data: typeof webpageData & { summary: string; keywords: string[] } = {
+			...webpageData,
+			summary,
+			keywords,
+		};
+		return data;
 	}),
 	create: protectedProcedure
 		.input(
@@ -84,6 +123,8 @@ export const productRouter = createTRPCRouter({
 				content: z.string(),
 				keywords: z.string().array(),
 				categoryList: z.string().array().default([]),
+				imageUrl: z.string().optional(),
+				images: z.string().array().default([]),
 			})
 		)
 		.mutation(async ({ input, ctx }) => {
@@ -93,7 +134,7 @@ export const productRouter = createTRPCRouter({
 			const siteUrl = new URL(`https://${urlStr}`); // 'https://www.google.com/?abc=123&xyz=123'
 			const url = siteUrl.host; // www.google.com
 			const name = input.name || makeSlug(urlStr);
-			const slug = makeSlug(input.url);
+			const slug = makeSlug(name);
 			const contentNoUnicode = makeSlug(input.content, { delimiter: " " });
 
 			// check duplication
@@ -103,41 +144,24 @@ export const productRouter = createTRPCRouter({
 
 			// categories
 			const categoryIds = await getOrInsertCategories(input.categoryList, ctx.prisma);
+
 			const newProduct = await ctx.prisma.product.create({
 				data: {
-					...input,
 					url,
 					name,
 					slug,
+					title: input.title,
+					intro: input.intro,
+					desc: input.desc,
+					content: input.content,
+					imageUrl: input.imageUrl,
+					images: input.images,
+					tags: input.tags,
 					ownerId: user.id,
 					contentNoUnicode,
 					categoryIds,
 				},
 			});
-
-			// TODO: process URL analysis...
-			crawlWebpage(input.url, {
-				isDebugging: true,
-				removeHtml: true,
-				removeJsCss: true,
-				removeSpaceTab: true,
-			})
-				.then(async ({ title, content: pageContent }) => {
-					console.log("[CREATE PRODUCT] Analyzed > title :>> ", title);
-
-					// ask AI to analyze this page content...
-					const keywords = await classifyKeywords(pageContent);
-					console.log("[CREATE PRODUCT] Analyzed > keywords :>> ", keywords);
-
-					const updatedProduct = await ctx.prisma.product.update({
-						where: { id: newProduct.id },
-						data: { title, keywords },
-					});
-					console.log("[CREATE PRODUCT] Analyzed > updatedProduct :>> ", updatedProduct);
-				})
-				.catch((e: any) => {
-					console.error(`[CREATE PRODUCT] Unable to crawl this web page: ${input.url} > ${e}`);
-				});
 
 			return newProduct;
 		}),
