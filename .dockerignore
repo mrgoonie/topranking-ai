@@ -4,6 +4,7 @@
 .dockerignore
 Dockerfile
 docker-compose.yml
+docker-compose.yaml
 node_modules/
 optimizer/
 local_certificate/

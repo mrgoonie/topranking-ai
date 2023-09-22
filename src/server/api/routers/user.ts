@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import checkAuthenticated from "@/server/api/routers/helpers/checkAuthenticated";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 
 const inputSchema = z.object({
 	newRoleId: z.string(),
@@ -33,7 +33,7 @@ export const userRouter = createTRPCRouter({
 			},
 		});
 
-		const roles = userWithRoles?.userRoles.map((ur) => ur.role);
+		const roles = userWithRoles?.userRoles.map((ur: any) => ur.role);
 
 		return roles;
 	}),

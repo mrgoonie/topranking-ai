@@ -76,6 +76,8 @@ public/uploads
 # Deployment
 deployment/deployment_dev1.yml
 deployment/deployment_dev1.yaml
+docker-compose.yml
+docker-compose.yaml
 
 # build & release framework
 gcloud-service-account.json

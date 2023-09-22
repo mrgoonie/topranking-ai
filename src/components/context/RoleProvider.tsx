@@ -31,7 +31,7 @@ const RoleProvider: React.FC<IRoleProvider> = ({ children, roles }) => {
 
 		const allowRoles = new Set(["Admin", ...roles]);
 
-		const _list = userRoles?.filter((item) => allowRoles.has(item.name)) || [];
+		const _list = userRoles?.filter((item: any) => allowRoles.has(item.name)) || [];
 		if (_list?.length > 0) {
 			//
 		} else {

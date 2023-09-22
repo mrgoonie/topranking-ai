@@ -8,9 +8,7 @@ import { crawlWebpage } from "@/plugins/crawler/crawl-webpage";
 import { makeSlug } from "@/plugins/utils/slug";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
 
-import type { PrismaClient } from "../../../../prisma/prisma-client";
-
-export const getOrInsertCategories = async (categoryList: string[], prisma: PrismaClient) => {
+export const getOrInsertCategories = async (categoryList: string[], prisma: any) => {
 	const categoryIds = await Promise.all(
 		categoryList.map(async (catName) => {
 			const catSlug = makeSlug(catName);

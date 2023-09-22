@@ -11,31 +11,47 @@ ENV NODE_OPTIONS=--max_old_space_size=8192
 
 WORKDIR /usr/src
 
-COPY ./package.json ./package.json
+COPY ./package.json .
+COPY ./prisma .
 
-# RUN npm i pnpm -g
+RUN npm i pnpm -g
 # RUN pnpm i diginext-utils
 
-RUN yarn add diginext-utils
+RUN pnpm install
+# RUN yarn add diginext-utils
+
+RUN pnpm exec prisma generate
+RUN pnpm add ./prisma/prisma-client
 
 # apps
 COPY . .
 COPY ./.env.dev ./.env
 
 # Start building
-RUN npm run build-all
+# RUN npm run build-all
+# RUN yarn build
+RUN pnpm build
 
 # install node-prune (https://github.com/tj/node-prune)
-RUN curl -sf https://gobinaries.com/tj/node-prune | sh
+# RUN curl -sf https://gobinaries.com/tj/node-prune | sh
 
 # run node-prune to scan for other unused node_modules packages
-RUN /usr/local/bin/node-prune
+# RUN /usr/local/bin/node-prune
 
 # ===================================
 #       PHASE 2 - RUNNER
 # ===================================
 
-FROM node:18-alpine AS RUNNER
+FROM node:18 AS RUNNER
+
+# Puppeteer: Install "chromium"
+RUN apt-get update && \
+    apt-get install -y gnupg chromium && \
+    rm -rf /var/lib/apt/lists/*
+
+# Puppeteer: chromium execution path
+ENV CHROMIUM_PATH /usr/bin/chromium
+RUN chmod +x /usr/bin/chromium
 
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs

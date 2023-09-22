@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import type { User } from "@prisma/client";
 import { toBool } from "diginext-utils/dist/object";
 import Timer from "diginext-utils/dist/Timer";
 import { useRouter } from "next/router";
 import type { SignInOptions, SignInResponse } from "next-auth/react";
 import { signIn, signOut, useSession } from "next-auth/react";
+import type { User } from "prisma/client";
 import React, { useContext, useEffect, useState } from "react";
 
 import { useStorage } from "@/components/context/StorageProvider";

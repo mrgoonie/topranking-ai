@@ -38,5 +38,8 @@
 		"editor.formatOnSave": true,
 		"editor.defaultFormatter": "Prisma.prisma"
 	},
-	"tailwindCSS.classAttributes": ["class", "classes", "cl", "className", "ngClass", ".*Styles", ".*Classes"]
+	"tailwindCSS.classAttributes": ["class", "classes", "cl", "className", "ngClass", ".*Styles", ".*Classes"],
+	"[dockercompose]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	}
 }

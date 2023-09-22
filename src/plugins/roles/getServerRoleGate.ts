@@ -25,11 +25,11 @@ export default async function getServerRoleGate(ctx: any, roles: Array<string>) 
 			},
 		},
 	});
-	const userRoles = userWithRoles?.userRoles.map((ur) => ur.role.name) || [];
+	const userRoles = userWithRoles?.userRoles.map((ur: any) => ur.role.name) || [];
 
 	const allowRoles = new Set(["Admin", ...roles]);
 
-	const _list = userRoles.filter((item) => allowRoles.has(item));
+	const _list = userRoles.filter((item: any) => allowRoles.has(item));
 
 	if (_list.length > 0) {
 		return {
