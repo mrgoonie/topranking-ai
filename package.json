@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "postinstall": "prisma generate",
+    "prisma": "prisma generate",
     "postbuild": "next-sitemap",
     "seed": "prisma db seed",
     "reset-db-local": "npx prisma db push --force-reset && pnpm postinstall && npm run seed",

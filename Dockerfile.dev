@@ -12,16 +12,20 @@ ENV NODE_OPTIONS=--max_old_space_size=8192
 WORKDIR /usr/src
 
 COPY ./package.json .
-COPY ./prisma .
 
+# PNPM
 RUN npm i pnpm -g
-# RUN pnpm i diginext-utils
-
 RUN pnpm install
+
+# Prisma
+COPY ./prisma .
+RUN npm run prisma
+
+# RUN pnpm i diginext-utils
 # RUN yarn add diginext-utils
 
-RUN pnpm exec prisma generate
-RUN pnpm add ./prisma/prisma-client
+# RUN pnpm add ./prisma/prisma-client
+# RUN pnpm exec prisma generate
 
 # apps
 COPY . .
@@ -87,4 +91,5 @@ COPY --from=BUILD_IMAGE /usr/src/next-sitemap.config.js .
 
 EXPOSE 3000 80
 
-CMD npm run start
+# CMD npm run start
+CMD node .next/standalone/server.js
