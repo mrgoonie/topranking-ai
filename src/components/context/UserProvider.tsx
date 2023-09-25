@@ -4,13 +4,14 @@ import Timer from "diginext-utils/dist/Timer";
 import { useRouter } from "next/router";
 import type { SignInOptions, SignInResponse } from "next-auth/react";
 import { signIn, signOut, useSession } from "next-auth/react";
-import type { User } from "prisma/client";
 import React, { useContext, useEffect, useState } from "react";
 
 import { useStorage } from "@/components/context/StorageProvider";
 import PageLogin from "@/components/router/examples/PageLogin";
 import { AppConfig } from "@/config/AppConfig";
 import { api } from "@/plugins/trpc/api";
+
+import type { User } from ".prisma/client";
 
 type UserContextType = {
 	user?: User;

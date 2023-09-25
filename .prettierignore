@@ -15,4 +15,5 @@ node_modules
 public
 package.json
 
-docker-compose.yaml
+docker-compose*.yaml
+docker-compose*.yml
