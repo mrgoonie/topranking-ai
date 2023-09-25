@@ -92,4 +92,4 @@ COPY --from=BUILD_IMAGE /usr/src/next-sitemap.config.js .
 EXPOSE 3000 80
 
 # CMD npm run start
-CMD node .next/standalone/server.js
+CMD node server.js
