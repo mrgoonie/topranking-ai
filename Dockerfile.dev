@@ -13,9 +13,10 @@ WORKDIR /usr/src
 
 COPY ./package.json .
 
-# PNPM
-RUN npm i pnpm -g
-RUN pnpm install
+# PNPM <= Unable to use PNPM since PRISMA will not working
+# RUN npm i pnpm -g
+# RUN pnpm install
+RUN npm i
 
 # Prisma
 COPY ./prisma .
@@ -32,9 +33,9 @@ COPY . .
 COPY ./.env.dev ./.env
 
 # Start building
-# RUN npm run build-all
+RUN npm run build
 # RUN yarn build
-RUN pnpm build
+# RUN pnpm build
 
 # install node-prune (https://github.com/tj/node-prune)
 # RUN curl -sf https://gobinaries.com/tj/node-prune | sh
