@@ -1,6 +1,6 @@
 import { createContext, memo, useContext, useState } from "react";
 
-import type { User } from ".prisma/client";
+import type { User } from "../../../node_modules/.prisma/client";
 
 interface IContext {
 	token: any;

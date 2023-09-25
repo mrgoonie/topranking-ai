@@ -11,7 +11,7 @@ import PageLogin from "@/components/router/examples/PageLogin";
 import { AppConfig } from "@/config/AppConfig";
 import { api } from "@/plugins/trpc/api";
 
-import type { User } from ".prisma/client";
+import type { User } from "../../../node_modules/.prisma/client";
 
 type UserContextType = {
 	user?: User;
