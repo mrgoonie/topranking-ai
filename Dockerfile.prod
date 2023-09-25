@@ -12,6 +12,7 @@ ENV NODE_OPTIONS=--max_old_space_size=8192
 WORKDIR /usr/src
 
 COPY ./package.json .
+COPY ./prisma .
 
 # PNPM <= Unable to use PNPM since PRISMA will not working
 # RUN npm i pnpm -g
@@ -19,7 +20,6 @@ COPY ./package.json .
 RUN npm i
 
 # Prisma
-COPY ./prisma .
 RUN npm run prisma
 
 # RUN pnpm i diginext-utils
