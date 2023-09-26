@@ -76,10 +76,13 @@ const UserProvider: React.FC<IUserProvider> = ({ children, isPrivate, ...props }
 	};
 
 	const onSignInById = async (id: string, options?: SignInOptions) => {
-		return signIn(id, {
+		const signInOptions = {
 			callbackUrl: AppConfig.getBaseUrl(router.asPath),
+			// callbackUrl: `${env.NEXTAUTH_URL}/${router.asPath}`,
 			...options,
-		});
+		};
+		console.log("signInOptions :>> ", signInOptions);
+		return signIn(id, signInOptions);
 	};
 	const onSignInFacebook = async (options?: SignInOptions) => {
 		return onSignInById("facebook", options);
