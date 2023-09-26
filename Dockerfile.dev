@@ -20,7 +20,7 @@ COPY ./prisma .
 RUN npm i
 
 # Prisma
-RUN npm run prisma
+RUN npx prisma generate
 
 # RUN pnpm i diginext-utils
 # RUN yarn add diginext-utils

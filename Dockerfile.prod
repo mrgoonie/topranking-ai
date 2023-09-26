@@ -20,7 +20,7 @@ COPY ./prisma .
 RUN npm i
 
 # Prisma
-RUN npm run prisma
+RUN npx prisma generate
 
 # RUN pnpm i diginext-utils
 # RUN yarn add diginext-utils
@@ -89,6 +89,9 @@ COPY --from=BUILD_IMAGE /usr/src/.env .
 COPY --from=BUILD_IMAGE /usr/src/server.js .
 COPY --from=BUILD_IMAGE /usr/src/package.json .
 COPY --from=BUILD_IMAGE /usr/src/next-sitemap.config.js .
+
+# Run prisma again?
+RUN npm run prisma
 
 EXPOSE 3000 80
 
