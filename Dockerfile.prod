@@ -30,7 +30,7 @@ RUN npx prisma generate
 
 # apps
 COPY . .
-COPY ./.env.dev ./.env
+COPY ./.env.prod ./.env
 
 # Start building
 RUN npm run build
