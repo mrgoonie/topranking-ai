@@ -1,5 +1,5 @@
 import { ArrowRightOutlined, InfoCircleOutlined, LoadingOutlined } from "@ant-design/icons";
-import { Form, Input, notification, Tag } from "antd";
+import { Col, Form, Input, notification, Row } from "antd";
 import { trimEnd } from "lodash";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -8,6 +8,8 @@ import MasterPageAuth from "@/components/layouts/MasterPageAuth";
 import GradientHeading from "@/components/theme/GradientHeading";
 import SiteButton from "@/components/theme/SiteButton";
 import SiteLayout from "@/components/theme/SiteLayout";
+import TagsGroup from "@/components/theme/TagsGroup";
+import UploadArea from "@/components/utils/UploadArea";
 import { api } from "@/plugins/trpc/api";
 
 export default function Submit() {
@@ -19,7 +21,8 @@ export default function Submit() {
 	// console.log("router :>> ", router.query, router.asPath, router.route, router.pathname);
 
 	const crawlSiteHandler = async (siteUrl: string) => {
-		setSiteData(undefined);
+		if (siteData) return;
+
 		try {
 			const data = await crawl.mutateAsync(siteUrl);
 			console.log(`Crawled "${siteUrl}" > data :>> `, data);
@@ -65,7 +68,7 @@ export default function Submit() {
 
 	return (
 		<MasterPageAuth meta={{ title: "Submit your AI" }}>
-			<SiteLayout>
+			<SiteLayout protected>
 				<div className="grow" />
 				<div className="relative flex min-h-[413px] w-full flex-col overflow-hidden rounded-[20px] bg-neutral-950 md:flex-row">
 					<div className="flex-grow">
@@ -110,7 +113,11 @@ export default function Submit() {
 									leadIcon={<ArrowRightOutlined />}
 									// href="/submit-success"
 									fullWidth
-									onClick={() => router.push(`${router.route}/?url=${url}`)}
+									onClick={(e) => {
+										e.preventDefault();
+										setSiteData(undefined);
+										router.push(`${router.route}/?url=${url}`);
+									}}
 								>
 									{typeof siteData === "undefined" ? "Submit" : "Reload"}
 								</SiteButton>
@@ -124,21 +131,37 @@ export default function Submit() {
 									wrapperCol={{ span: 16 }}
 									onFinish={onFinish}
 									onFinishFailed={onFinishFailed}
+									className="w-full max-w-xl"
 								>
-									<Form.Item name="title" initialValue={siteData?.title} label="Title">
+									<Row>
+										<Col span={8} />
+										<Col span={16}>
+											<UploadArea
+												desc="Click to upload"
+												imageUrl={siteData.imageUrl}
+												onChange={(imgUrl) =>
+													setSiteData((_: any) => ({ ..._, imageUrl: imgUrl }))
+												}
+											/>
+										</Col>
+									</Row>
+									<Form.Item name="title" initialValue={siteData.title} label="Title">
 										<Input />
 									</Form.Item>
-									<Form.Item name="desc" initialValue={siteData?.description} label="Description">
+									<Form.Item name="desc" initialValue={siteData.description} label="Description">
 										<Input />
 									</Form.Item>
-									<Form.Item name="intro" initialValue={siteData?.summary} label="Summary">
+									<Form.Item name="intro" initialValue={siteData.summary} label="Summary">
 										<Input.TextArea />
 									</Form.Item>
-									<Form.Item name="imageUrl" initialValue={siteData?.metaData["og:image"]} hidden>
+									<Form.Item name="imageUrl" initialValue={siteData.metaData["og:image"]} hidden>
 										<Input hidden />
 									</Form.Item>
 									<Form.Item label="Tags">
-										{siteData?.keywords.map((keyword: any) => <Tag key={keyword}>{keyword}</Tag>)}
+										<TagsGroup
+											defaultValue={siteData.keywords}
+											onChange={(tags) => setSiteData((_: any) => ({ ..._, keywords: tags }))}
+										/>
 									</Form.Item>
 									<Form.Item wrapperCol={{ offset: 8, span: 16 }}>
 										<SiteButton htmlType="submit">Submit now</SiteButton>

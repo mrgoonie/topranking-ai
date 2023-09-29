@@ -1,5 +1,6 @@
 import { DoubleRightOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import useMap from "ahooks/lib/useMap";
+import { useEffect, useState } from "react";
 
 import RankList from "@/components/theme/RankList";
 import { api } from "@/plugins/trpc/api";
@@ -15,19 +16,30 @@ const RankTable = () => {
 	});
 	const { data: result = { data: [], pagination: undefined } } = productQuery;
 	const { data: list, pagination } = result;
+
+	const [collection, { set: addToCollection }] = useMap<string, RankItemProps>([]);
 	// console.log("pagination :>> ", pagination);
+
+	const handlerShowMoreClick = async () => {
+		if (pagination && page <= pagination?.total_pages) setPage(page + 1);
+	};
+
+	useEffect(() => {
+		list?.map((item: any) => {
+			if (!collection.get(item.id)) {
+				addToCollection(item.id, {
+					...item,
+					href: `https://${item.url}?ref=toprankingai`,
+					target: "_blank",
+				} as RankItemProps);
+			}
+		});
+	}, [list]);
 
 	return (
 		<div className="w-full max-w-3xl">
 			<RankList
-				dataSource={list.map(
-					(item: any) =>
-						({
-							...item,
-							href: `https://${item.url}?ref=toprankingai`,
-							target: "_blank",
-						}) as RankItemProps
-				)}
+				dataSource={Array.from(collection.values())}
 				// dataSource={[
 				// 	{
 				// 		type: "primary",
@@ -38,9 +50,13 @@ const RankTable = () => {
 				// 	},
 				// ]}
 			/>
-			{pagination?.page === pagination?.total_pages ? null : (
+			{page === pagination?.total_pages ? null : (
 				<div className="py-10 text-center">
-					<SiteButton type="tertiary" leadIcon={<DoubleRightOutlined className="rotate-90" />}>
+					<SiteButton
+						type="tertiary"
+						leadIcon={<DoubleRightOutlined className="rotate-90" />}
+						onClick={() => handlerShowMoreClick()}
+					>
 						Show more
 					</SiteButton>
 				</div>

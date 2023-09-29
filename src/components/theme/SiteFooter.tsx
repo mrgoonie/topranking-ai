@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import type { BaseComponentProps } from "./ComponentProps";
@@ -7,7 +6,7 @@ interface SiteFooterProps extends BaseComponentProps {}
 
 const SiteFooter = (props?: SiteFooterProps) => {
 	return (
-		<div className="flex w-full max-w-md flex-col items-center border-t border-t-neutral-600 pb-6 text-center text-xs md:text-sm">
+		<div className="mt-8 flex w-full max-w-md flex-col items-center border-t border-t-neutral-600 pb-6 text-center text-xs md:text-sm">
 			<p className="w-full py-5">
 				Copyright © 2023 - Made with ❤️ by{" "}
 				<Link
@@ -18,7 +17,7 @@ const SiteFooter = (props?: SiteFooterProps) => {
 					T.O.P Group
 				</Link>
 			</p>
-			<div className="flex items-center gap-10">
+			{/* <div className="flex items-center gap-10">
 				<Link href="#">
 					<Image src="/images/icons/facebook.svg" width={8} height={16} alt="facebook" />
 				</Link>
@@ -31,7 +30,7 @@ const SiteFooter = (props?: SiteFooterProps) => {
 				<Link href="#">
 					<Image src="/images/icons/youtube.svg" width={15} height={10} alt="youtube" />
 				</Link>
-			</div>
+			</div> */}
 		</div>
 	);
 };

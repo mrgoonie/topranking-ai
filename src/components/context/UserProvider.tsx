@@ -15,6 +15,7 @@ import { api } from "@/plugins/trpc/api";
 type UserContextType = {
 	user?: User;
 	token?: string;
+	status?: "authenticated" | "loading" | "unauthenticated";
 	getProfile: () => Promise<User | null>;
 	onSignOut: () => void;
 	onSignInById: (id: string, options?: SignInOptions) => Promise<SignInResponse | undefined>;
@@ -36,9 +37,8 @@ const UserProvider: React.FC<IUserProvider> = ({ children, isPrivate, ...props }
 	const { query } = router;
 	const { urlCallback } = query;
 
-	const { user, setUser, token, setToken, setIsLoading } = useStorage();
-
 	const { data: session, status } = useSession();
+	const { user, setUser, token, setToken, setIsLoading } = useStorage();
 
 	const {
 		data: profile,
@@ -133,6 +133,7 @@ const UserProvider: React.FC<IUserProvider> = ({ children, isPrivate, ...props }
 				//
 				user,
 				token,
+				status,
 				getProfile,
 				onSignOut,
 				onSignInById,

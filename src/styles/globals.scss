@@ -34,6 +34,18 @@ a {
 	@apply text-[#4D62E5];
 }
 
+// --------- ANTD OVERRIDE -------
+
+.ant-upload-select {
+	overflow: hidden;
+}
+.ant-upload-wrapper {
+	display: flex !important;
+	width: auto !important;
+}
+
+// --------- APP ---------
+
 .container-bg-color {
 	@apply bg-neutral-950;
 }

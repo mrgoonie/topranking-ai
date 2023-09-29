@@ -1,6 +1,5 @@
-import { SearchOutlined } from "@ant-design/icons";
 import { useResponsive } from "ahooks/lib/useResponsive";
-import { Image, Input } from "antd";
+import { Image } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -22,12 +21,13 @@ const SiteHeader = (props?: SiteHeaderProps) => {
 		<div className="flex w-full flex-col items-center gap-2 py-6 md:flex-row md:gap-0">
 			<div className="flex w-full justify-between gap-4 md:w-auto md:items-center">
 				<SiteLogo className="w-full" href="/" />
-				<Input
+				{/* Search */}
+				{/* <Input
 					prefix={<SearchOutlined />}
 					size="large"
 					placeholder="Search (Cmd + K)"
 					className="hidden md:inline-flex"
-				/>
+				/> */}
 				<SiteButton type="ghost" href="/about">
 					About
 				</SiteButton>
