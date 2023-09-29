@@ -2,9 +2,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const path = require("path");
 
-const withBundleAnalyzer = require("@next/bundle-analyzer")({
-	enabled: process.env.ANALYZE === "true",
-});
+const withBundleAnalyzer =
+	process.env.ANALYZE_BUNDLE === "true" ? require("@next/bundle-analyzer")({ enabled: true }) : (config) => config;
 
 const transpilePackages = [
 	//
