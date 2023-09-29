@@ -52,11 +52,12 @@ if (env.NEXT_PUBLIC_DISCORD_CLIENT_ID) {
 		})
 	);
 }
-if (env.NEXT_PUBLIC_GOOGLE_CLIENT_ID) {
+
+if (env.NEXT_PUBLIC_GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET) {
 	providers.push(
 		GoogleProvider({
-			clientId: env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string,
-			clientSecret: env.GOOGLE_CLIENT_SECRET as string,
+			clientId: env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+			clientSecret: env.GOOGLE_CLIENT_SECRET,
 			profile(profile) {
 				return {
 					providerAccountId: `GOOGLE-${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}-${profile.sub}`,
@@ -139,15 +140,6 @@ providers.push(
 			//
 
 			throw new Error("Lỗi cmnr !");
-
-			//
-
-			/* add function to get user */
-
-			const user = {
-				id: "64e5b1acaf2d53812cb962fa", //FOR TEST ONLY
-			};
-			return user;
 		},
 		credentials: {
 			username: { label: "Username", type: "text ", placeholder: "jsmith" },

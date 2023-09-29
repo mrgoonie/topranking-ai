@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import type { User } from "@prisma/client";
 import { toBool } from "diginext-utils/dist/object";
 import Timer from "diginext-utils/dist/Timer";
 import { useRouter } from "next/router";
 import type { SignInOptions, SignInResponse } from "next-auth/react";
 import { signIn, signOut, useSession } from "next-auth/react";
-import type { User } from "prisma/client";
 import React, { useContext, useEffect, useState } from "react";
 
 import { useStorage } from "@/components/context/StorageProvider";
@@ -15,6 +15,7 @@ import { api } from "@/plugins/trpc/api";
 type UserContextType = {
 	user?: User;
 	token?: string;
+	status?: "authenticated" | "loading" | "unauthenticated";
 	getProfile: () => Promise<User | null>;
 	onSignOut: () => void;
 	onSignInById: (id: string, options?: SignInOptions) => Promise<SignInResponse | undefined>;
@@ -36,9 +37,8 @@ const UserProvider: React.FC<IUserProvider> = ({ children, isPrivate, ...props }
 	const { query } = router;
 	const { urlCallback } = query;
 
-	const { user, setUser, token, setToken, setIsLoading } = useStorage();
-
 	const { data: session, status } = useSession();
+	const { user, setUser, token, setToken, setIsLoading } = useStorage();
 
 	const {
 		data: profile,
@@ -76,10 +76,13 @@ const UserProvider: React.FC<IUserProvider> = ({ children, isPrivate, ...props }
 	};
 
 	const onSignInById = async (id: string, options?: SignInOptions) => {
-		return signIn(id, {
+		const signInOptions = {
 			callbackUrl: AppConfig.getBaseUrl(router.asPath),
+			// callbackUrl: `${env.NEXTAUTH_URL}/${router.asPath}`,
 			...options,
-		});
+		};
+		console.log("signInOptions :>> ", signInOptions);
+		return signIn(id, signInOptions);
 	};
 	const onSignInFacebook = async (options?: SignInOptions) => {
 		return onSignInById("facebook", options);
@@ -130,6 +133,7 @@ const UserProvider: React.FC<IUserProvider> = ({ children, isPrivate, ...props }
 				//
 				user,
 				token,
+				status,
 				getProfile,
 				onSignOut,
 				onSignInById,

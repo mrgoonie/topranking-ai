@@ -7,6 +7,7 @@ export const env = createEnv({
 	 * isn't built with invalid env vars.
 	 */
 	server: {
+		NEXT_PUBLIC_BASE_URL: z.string().url().optional(),
 		DATABASE_URL: z.string().url().optional(),
 		NODE_ENV: z.enum(["development", "test", "production"]),
 		JWT_SECRET: z.string().optional(),
@@ -32,6 +33,8 @@ export const env = createEnv({
 		APPLE_SECRET: z.string().optional(),
 		NEXT_PUBLIC_FACEBOOK_CLIENT_ID: z.string().optional(),
 		FACEBOOK_CLIENT_SECRET: z.string().optional(),
+		GOOGLE_SERVICE_ACCOUNT: z.string().optional(),
+		GOOGLE_STORAGE_BUCKET: z.string().optional(),
 	},
 
 	/**
@@ -53,6 +56,7 @@ export const env = createEnv({
 	 * middlewares) or client-side so we need to destruct manually.
 	 */
 	runtimeEnv: {
+		NEXT_PUBLIC_BASE_URL: z.string().url().optional(),
 		DATABASE_URL: process.env.DATABASE_URL,
 		JWT_SECRET: process.env.JWT_SECRET,
 		NODE_ENV: process.env.NODE_ENV,
@@ -71,6 +75,8 @@ export const env = createEnv({
 		APPLE_SECRET: process.env.APPLE_SECRET,
 		NEXT_PUBLIC_FACEBOOK_CLIENT_ID: process.env.NEXT_PUBLIC_FACEBOOK_CLIENT_ID,
 		FACEBOOK_CLIENT_SECRET: process.env.FACEBOOK_CLIENT_SECRET,
+		GOOGLE_SERVICE_ACCOUNT: process.env.GOOGLE_SERVICE_ACCOUNT,
+		GOOGLE_STORAGE_BUCKET: process.env.GOOGLE_STORAGE_BUCKET,
 	},
 	/**
 	 * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.

@@ -5,7 +5,7 @@ import puppeteer from "puppeteer";
  *
  * @param {string} url
  * @param {{useExecPath?: boolean; isDebugging?: boolean; removeHtml?: boolean; removeJsCss?: boolean; removeSpaceTab?: boolean;}} opt
- * @returns {Promise<{title: string; content: string; name: string; description: string; images: string[]; icons: string[]; metaData: any;}>}
+ * @returns {Promise<{title: string; content: string; name: string; description: string; imageUrl: string; images: string[]; icons: string[]; metaData: any;}>}
  */
 export async function crawlWebpage(url, opt = {}) {
 	/**
@@ -82,7 +82,7 @@ export async function crawlWebpage(url, opt = {}) {
 	// extract title, desc & content
 	const title = await page.title();
 	const content = await page.evaluate((_opt) => {
-		console.log("_opt :>> ", JSON.stringify(_opt));
+		// console.log("_opt :>> ", JSON.stringify(_opt));
 
 		// Remove all script and style elements
 		if (_opt?.removeJsCss) {
@@ -93,15 +93,22 @@ export async function crawlWebpage(url, opt = {}) {
 		return !_opt?.removeHtml ? document.body.content : document.body.textContent.trim();
 	}, opt);
 
-	if (opt?.isDebugging === true) console.log(`[🐞] crawlWebpage > ${url} > FINISHED!`);
+	if (opt?.isDebugging === true) console.log(`[🐞] crawlWebpage > ${url} > Finished crawling`);
 
 	// close the browser
-	await browser.close();
+	try {
+		await browser.close();
+	} catch (e) {
+		console.warn(`[🐞] crawlWebpage > ${url} > Unable to close the browser.`);
+	}
+
+	if (opt?.isDebugging === true) console.log(`[🐞] crawlWebpage > ${url} > Browser tab closed`);
 
 	// result data
 	const name = metaData["og:title"] || title;
 	const description = metaData.description || metaData["og:description"] || "";
 	const images = metaData.images || [];
+	const imageUrl = metaData["og:image"] || images[0];
 	const icons = metaData.icons || [];
 
 	delete metaData.description;
@@ -112,12 +119,13 @@ export async function crawlWebpage(url, opt = {}) {
 		name,
 		title,
 		description,
+		imageUrl,
 		images,
 		icons,
 		metaData,
 		content: !opt.removeSpaceTab ? content : content.replace(/\n|\t/g, " "),
 	};
-	if (opt?.isDebugging === true) console.log(`[🐞] crawlWebpage > result data :>>`, data);
+	if (opt?.isDebugging === true) console.log(`[🐞] crawlWebpage > Result data :>>`, data);
 
 	// remove all linebreaks
 	return data;

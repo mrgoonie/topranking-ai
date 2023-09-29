@@ -8,6 +8,7 @@ import { createTRPCContext } from "@/server/api/trpc";
 export default createNextApiHandler({
 	router: appRouter,
 	createContext: createTRPCContext,
+	maxBodySize: 10 * 1024 * 1024, // 10MB
 	onError:
 		env.NODE_ENV === "development"
 			? ({ path, error }) => {
