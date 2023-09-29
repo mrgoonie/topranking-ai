@@ -81,10 +81,6 @@ WORKDIR /usr/app
 COPY --from=BUILD_IMAGE /usr/src/.next/standalone .
 COPY --from=BUILD_IMAGE /usr/src/.next/static ./.next/static
 COPY --from=BUILD_IMAGE /usr/src/public ./public
-COPY --from=BUILD_IMAGE /usr/src/prisma ./prisma
-
-# Run prisma again?
-RUN npm run prisma
 
 EXPOSE 3000 80
 
