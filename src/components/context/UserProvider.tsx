@@ -47,7 +47,7 @@ const UserProvider: React.FC<IUserProvider> = ({ children, isPrivate, ...props }
 		error,
 		refetch,
 	} = api.user.getProfile.useQuery(
-		undefined, // no input
+		{}, // no input
 		{ enabled: session?.user !== undefined }
 	);
 

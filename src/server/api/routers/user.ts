@@ -8,7 +8,7 @@ const inputSchema = z.object({
 });
 
 export const userRouter = createTRPCRouter({
-	getProfile: protectedProcedure.query(({ input, ctx }) => {
+	getProfile: protectedProcedure.input(z.any()).query(({ input, ctx }) => {
 		const user = checkAuthenticated(ctx);
 
 		const { id } = user;
@@ -18,7 +18,7 @@ export const userRouter = createTRPCRouter({
 		});
 	}),
 
-	getRole: protectedProcedure.query(async ({ input, ctx }) => {
+	getRole: protectedProcedure.input(z.any()).query(async ({ input, ctx }) => {
 		const user = checkAuthenticated(ctx);
 		const { id } = user;
 

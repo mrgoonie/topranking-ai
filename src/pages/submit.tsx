@@ -124,7 +124,7 @@ export default function Submit() {
 							</div>
 
 							{/* PREVIEW */}
-							{typeof siteData !== "undefined" && !createProduct.isLoading ? (
+							{typeof siteData !== "undefined" || createProduct.status === "error" ? (
 								<Form
 									name="product"
 									labelCol={{ span: 8 }}
