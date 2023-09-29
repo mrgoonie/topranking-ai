@@ -8,7 +8,7 @@
     "postbuild": "next-sitemap",
     "seed": "prisma db seed",
     "reset-db-local": "npx prisma db push --force-reset && pnpm postinstall && npm run seed",
-    "prepare": "husky install",
+    "prepare": "husky install || true",
     "dev": "next dev",
     "build": "next build",
     "build-stats": "cross-env ANALYZE=true pnpm build",
