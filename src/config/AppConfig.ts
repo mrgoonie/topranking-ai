@@ -6,8 +6,7 @@ export const AppConfig = {
 	locale: "vi",
 
 	title: "TopRanking.AI",
-	description:
-		"TopRanking.AI surfaces the best new AI products, every day. It's a place for AI-loving enthusiasts to share and geek out about the latest AI apps, SaaS, virtual assistants, generative AI and AI creations.",
+	description: "Find the best AI products on TopRanking.AI, every day.",
 
 	getBaseUrl: (url = "") => {
 		return process.env.NEXT_PUBLIC_BASE_URL ? `${process.env.NEXT_PUBLIC_BASE_URL}${url}` : url;
