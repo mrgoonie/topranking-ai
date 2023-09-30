@@ -4,7 +4,7 @@ import puppeteer from "puppeteer";
  * Crawl a web page URL and return the content.
  *
  * @param {string} url
- * @param {{useExecPath?: boolean; isDebugging?: boolean; removeHtml?: boolean; removeJsCss?: boolean; removeSpaceTab?: boolean;}} opt
+ * @param {{isDebugging?: boolean; removeHtml?: boolean; removeJsCss?: boolean; removeSpaceTab?: boolean;}} opt
  * @returns {Promise<{title: string; content: string; name: string; description: string; imageUrl: string; images: string[]; icons: string[]; metaData: any;}>}
  */
 export async function crawlWebpage(url, opt = {}) {
@@ -26,7 +26,7 @@ export async function crawlWebpage(url, opt = {}) {
 	};
 
 	if (process.env.CHROMIUM_PATH) options.executablePath = process.env.CHROMIUM_PATH;
-	if (!opt?.useExecPath) delete options.executablePath;
+	// if (!opt?.useExecPath) delete options.executablePath;
 
 	// console.log(`[🐞] crawlWebpage > ${url} > process.env.CHROMIUM_PATH :>> `, process.env.CHROMIUM_PATH);
 	if (opt?.isDebugging === true) console.log(`[🐞] crawlWebpage > ${url} > options :>> `, options);

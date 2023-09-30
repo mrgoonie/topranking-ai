@@ -56,11 +56,17 @@ const uploadHandler = async (req: any, res: any) => {
 			});
 
 			// The public URL can be used to directly access the file via HTTP.
-			const publicUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
+			const originalUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
+			const publicUrl = `https://google-cdn.digitop.vn/topranking-ai/${fileName}`;
 
-			return res
-				.status(200)
-				.json({ status: 1, success: true, url: publicUrl, mimetype: file.mimetype, size: file.buffer.length });
+			return res.status(200).json({
+				status: 1,
+				success: true,
+				url: publicUrl,
+				originalUrl,
+				mimetype: file.mimetype,
+				size: file.buffer.length,
+			});
 		} catch (error) {
 			return res
 				.status(500)
