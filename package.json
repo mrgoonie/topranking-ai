@@ -20,6 +20,7 @@
     "check-secret": "node .husky/check-secret.js",
     "clean": "rimraf node_modules .next out",
     "commit": "git add . && cz && git push origin",
+    "pkg-version": "npm pkg set version=$(echo $(git describe --tags $(git rev-list --tags --max-count=1)) | cut -c2-)",
     "release": "npx semantic-release --no-ci"
   },
   "prisma": {
