@@ -33,8 +33,7 @@ export default function Submit() {
 	};
 
 	const onFinish = (values: any) => {
-		console.log("Submiting:", values);
-
+		// console.log("Submiting:", values);
 		createProduct
 			.mutateAsync({
 				...values,
@@ -43,16 +42,22 @@ export default function Submit() {
 				keywords: siteData.keywords,
 				tags: siteData.keywords,
 				categoryList: siteData.keywords,
+				images: siteData.images,
+				imageUrl: siteData.imageUrl,
 			})
 			.then((newProduct) => {
-				console.log("newProduct :>> ", newProduct);
+				// console.log("newProduct :>> ", newProduct);
 				router.push(`/submit-success`);
 			})
-			.catch((e) => console.log("e :>> ", e));
+			.catch((e: any) => {
+				console.log("e :>> ", e);
+				notification.error({ message: `Unable to create a product: ${e.message}` });
+			});
 	};
 
 	const onFinishFailed = (errorInfo: any) => {
 		console.log("Failed:", errorInfo);
+		// notification.error({ message: `Unable to create a product: ${errorInfo.message}` });
 	};
 
 	useEffect(() => {
@@ -124,7 +129,7 @@ export default function Submit() {
 							</div>
 
 							{/* PREVIEW */}
-							{typeof siteData !== "undefined" && !createProduct.isLoading ? (
+							{typeof siteData !== "undefined" || createProduct.status === "error" ? (
 								<Form
 									name="product"
 									labelCol={{ span: 8 }}

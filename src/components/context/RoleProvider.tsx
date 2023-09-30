@@ -19,10 +19,7 @@ const RoleProvider: React.FC<IRoleProvider> = ({ children, roles }) => {
 	const router = useRouter();
 	const { data: session, status } = useSession();
 
-	const { data: userRoles, refetch } = api.user.getRole.useQuery(
-		undefined, // no input
-		{ enabled: session?.user !== undefined }
-	);
+	const { data: userRoles, refetch } = api.user.getRole.useQuery({}, { enabled: session?.user !== undefined });
 	useEffect(() => {
 		// effect
 
@@ -40,7 +37,7 @@ const RoleProvider: React.FC<IRoleProvider> = ({ children, roles }) => {
 			router.back();
 		}
 
-		// console.log("userRoles :>> ", userRoles);
+		console.log("userRoles :>> ", userRoles);
 		// console.log("user :>> ", user);
 
 		return () => {};
