@@ -19,7 +19,7 @@ const Meta = (props: IMetaProps) => {
 		props.hasOwnProperty("title") ? `${props.title ? ` | ${props.title}` : ``}` : " | Trang chủ"
 	}`;
 	const description = `${props.description || AppConfig.description}`;
-	const image = `${props.image || `${router.basePath}/share.webp`}`;
+	const image = `${props.image || `${router.basePath}/share.png`}`;
 
 	return (
 		<>

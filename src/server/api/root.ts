@@ -2,7 +2,6 @@ import { blogRouter } from "@/server/api/routers/blog";
 import { userRouter } from "@/server/api/routers/user";
 import { createTRPCRouter } from "@/server/api/trpc";
 
-import { imageRouter } from "./routers/image-router";
 import { productRouter } from "./routers/product";
 import { productCategoryRouter } from "./routers/product-category";
 
@@ -16,7 +15,6 @@ export const appRouter = createTRPCRouter({
 	blog: blogRouter,
 	product: productRouter,
 	productCategory: productCategoryRouter,
-	image: imageRouter,
 });
 
 // export type definition of API
