@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/mrgoonie/topranking-ai/compare/v1.0.0...v1.0.1) (2023-09-30)
+
+### Bug Fixes
+
+-   **package-json:** script to update pkg version ([91d34bf](https://github.com/mrgoonie/topranking-ai/commit/91d34bf140bdb9cbb0dc124919976c57c607feb1))
+
 # 1.0.0 (2023-09-30)
 
 ### Bug Fixes
