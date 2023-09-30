@@ -113,6 +113,11 @@ export default function Submit() {
 											siteUrl = siteUrl.replaceAll(new RegExp("http://", "gi"), "");
 										setUrl(siteUrl);
 									}}
+									onPressEnter={(e) => {
+										e.preventDefault();
+										setSiteData(undefined);
+										router.push(`${router.route}/?url=${url}`);
+									}}
 								/>
 								<SiteButton
 									leadIcon={<ArrowRightOutlined />}
