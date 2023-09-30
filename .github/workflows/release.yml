@@ -68,7 +68,7 @@ jobs:
           commit_message: "chore(package.json): update version [skip ci]"
           commit_options: '--allow-empty --no-verify --signoff'
   deploy:
-    name: Release GITHUB
+    name: Deploy PRODUCTION
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to TopRanking.AI
