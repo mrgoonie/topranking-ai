@@ -9,18 +9,22 @@ import type { BaseComponentProps } from "../theme/ComponentProps";
 
 const allowedFileTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
 const sizeLimit = 10 * 1024 * 1024; // 10 MB
+const uploadUrl = AppConfig.getBaseUrl("/api/upload");
 
 export interface UploadAreaProps extends BaseComponentProps {
 	imageUrl?: string;
 	desc?: string;
-	onChange?: (imageUrl: string) => void;
+	onChange?: (firstImage: string, images: string[]) => void;
 }
 
 const UploadArea = (props?: UploadAreaProps) => {
+	const [fileList, setFileList] = useState<UploadFile[]>([]);
+	const [uploadList, setUploadList] = useState<string[]>([]);
+	const [imageUrl, setImageUrl] = useState<string>(props?.imageUrl || "");
 	const [loading, setLoading] = useState(false);
-	const [imageUrl, setImageUrl] = useState(props?.imageUrl);
 
 	const beforeUpload = (file: RcFile) => {
+		console.log("beforeUpload > file :>> ", file);
 		const isAllowedType = allowedFileTypes.includes(file.type);
 		if (!isAllowedType) {
 			message.error("You can only upload JPG, JPEG, PNG, or GIF files!");
@@ -35,6 +39,9 @@ const UploadArea = (props?: UploadAreaProps) => {
 	};
 
 	const handleChange = (info: UploadChangeParam<UploadFile<any>>) => {
+		// console.log("info :>> ", info);
+		if (info.fileList.length > 0) setFileList(info.fileList);
+
 		if (info.file.status === "uploading") {
 			setLoading(true);
 			return;
@@ -45,8 +52,9 @@ const UploadArea = (props?: UploadAreaProps) => {
 
 		if (info.file.status === "done") {
 			console.log("info :>> ", info);
-			// info.file.url
-			setImageUrl(info.file.response?.url);
+			// response data:
+			setImageUrl(info.file.response?.data.url);
+			setUploadList(info.file.response?.data.map((uploadedFile) => uploadedFile.url));
 			message.success(`${info.file.name} file uploaded successfully`);
 		} else if (info.file.status === "error") {
 			message.error(`${info.file.name} file upload failed.`);
@@ -54,24 +62,33 @@ const UploadArea = (props?: UploadAreaProps) => {
 	};
 
 	useEffect(() => {
-		setImageUrl(props?.imageUrl);
+		if (props?.imageUrl) setImageUrl(props?.imageUrl);
 	}, [props?.imageUrl]);
 
 	useEffect(() => {
-		if (imageUrl && props?.onChange) props.onChange(imageUrl);
-	}, [imageUrl]);
+		console.log("uploadList :>> ", uploadList);
+		if (props?.onChange) props.onChange(imageUrl, uploadList);
+	}, [imageUrl, uploadList]);
 
 	return (
 		<div className="flex flex-row items-center">
 			<Upload
-				name="file"
-				action={AppConfig.getBaseUrl("/api/upload")}
+				multiple
+				name="files"
+				action={uploadUrl}
 				listType="picture-card"
 				className="flex overflow-hidden"
-				showUploadList={false}
+				showUploadList
 				beforeUpload={beforeUpload}
 				onChange={handleChange}
+				onRemove={(file) => {
+					const index = fileList.indexOf(file);
+					const newFileList = fileList.slice();
+					newFileList.splice(index, 1);
+					setFileList(newFileList);
+				}}
 				style={{ overflow: "hidden" }}
+				fileList={fileList}
 			>
 				{imageUrl ? (
 					<img src={imageUrl} alt="avatar" style={{ width: "100%" }} />

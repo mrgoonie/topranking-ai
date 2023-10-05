@@ -15,6 +15,7 @@
 		"jsx": "preserve",
 		"incremental": true,
 		"importHelpers": false,
+		"noImplicitAny": false,
 		"paths": {
 			"@/*": ["./src/*"],
 			"@/public/*": ["./public/*"]

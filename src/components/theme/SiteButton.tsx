@@ -17,7 +17,7 @@ export interface BtnProps extends BaseComponentProps {
 	 */
 	htmlType?: "button" | "reset" | "submit";
 	fullWidth?: boolean;
-	onClick?: React.MouseEventHandler<HTMLDivElement>;
+	onClick?: React.MouseEventHandler<any>;
 }
 
 const SiteButton = (props?: BtnProps) => {

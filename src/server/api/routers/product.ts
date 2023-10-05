@@ -9,20 +9,20 @@ import { makeSlug } from "@/plugins/utils/slug";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
 
 export const getOrInsertCategories = async (categoryList: string[], prisma: any) => {
-	const categoryIds = await Promise.all(
+	const categories = await Promise.all(
 		categoryList.map(async (catName) => {
 			const catSlug = makeSlug(catName);
 
 			const existingCategory = await prisma.productCategory.findFirst({ where: { slug: catSlug } });
-			if (existingCategory) return existingCategory.id;
+			if (existingCategory) return existingCategory;
 
 			const category = await prisma.productCategory.create({
 				data: { name: catName, slug: catSlug },
 			});
-			return category.id;
+			return category;
 		})
 	);
-	return categoryIds;
+	return categories;
 };
 
 const productUpdateSchema = z.object({
@@ -46,8 +46,15 @@ export const productRouter = createTRPCRouter({
 				filter: z
 					.object({
 						tags: z.array(z.string()).optional(),
+						inCategories: z.array(z.string()).optional(),
 					})
 					.optional(),
+				include: z
+					.object({
+						categories: z.object({ select: z.any() }),
+					})
+					.optional(),
+				offset: z.object({ skip: z.number().default(0), take: z.number() }).optional(),
 				pagination: z
 					.object({
 						page: z.number(),
@@ -68,9 +75,20 @@ export const productRouter = createTRPCRouter({
 			const take = input.pagination ? input.pagination?.itemPerPage : undefined;
 			const total_pages = typeof take !== "undefined" ? Math.ceil(total_items / take) : 0;
 
+			// filter by category slugs
+			const categories = input.filter?.inCategories
+				? await ctx.prisma.productCategory.findMany({
+						where: { slug: { in: input.filter?.inCategories } },
+				  })
+				: undefined;
+
 			const data = await ctx.prisma.product.findMany({
-				where: { tags: { hasEvery: input.filter?.tags || [] } },
-				orderBy: [],
+				include: input.include,
+				where: {
+					tags: { hasEvery: input.filter?.tags || [] },
+					categoryIds: { hasEvery: categories?.map((cat) => cat.id) },
+				},
+				orderBy: input.orderBy,
 				skip,
 				take,
 			});
@@ -141,8 +159,10 @@ export const productRouter = createTRPCRouter({
 				throw new TRPCError({ code: "BAD_REQUEST", message: `Unable to create: Product is existed.` });
 
 			// categories
-			const categoryIds = await getOrInsertCategories(input.categoryList, ctx.prisma);
+			const categories = await getOrInsertCategories(input.categoryList, ctx.prisma);
+			const categoryIds = categories.map((cat) => cat.id);
 
+			// create new product
 			const newProduct = await ctx.prisma.product.create({
 				data: {
 					url,
@@ -160,6 +180,17 @@ export const productRouter = createTRPCRouter({
 					categoryIds,
 				},
 			});
+			// console.log("categories :>> ", categories);
+			// console.log("categoryIds :>> ", categoryIds);
+
+			// insert this productId to categories
+			ctx.prisma.productCategory
+				.updateMany({
+					where: { id: { in: categoryIds } },
+					data: { productIds: { push: newProduct.id } },
+				})
+				.then((cat) => console.log(`Added {${newProduct.slug}} to ${cat.count} categories.`))
+				.catch((e) => console.log(e.message));
 
 			return newProduct;
 		}),
@@ -174,7 +205,8 @@ export const productRouter = createTRPCRouter({
 			throw new TRPCError({ code: "NOT_FOUND", message: `Unable to update, product not found.` });
 
 		// categories
-		const newCategoryIds = await getOrInsertCategories(input.data.categoryList, ctx.prisma);
+		const newCategories = await getOrInsertCategories(input.data.categoryList, ctx.prisma);
+		const newCategoryIds = newCategories.map((cat) => cat.id);
 		const categoryIds = [...currentProduct.categoryIds, ...newCategoryIds];
 
 		return ctx.prisma.product.update({

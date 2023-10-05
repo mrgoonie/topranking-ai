@@ -10,7 +10,7 @@ const config: Config = {
 	theme: {
 		extend: {
 			colors: {
-				"electric-green": "rgb(74, 201, 126)",
+				"electric-green": "#4AC97E",
 				"electric-green-hover": "#C8F4B4",
 			},
 			backgroundImage: {

@@ -2,6 +2,7 @@ import { useResponsive } from "ahooks/lib/useResponsive";
 import { Avatar, notification } from "antd";
 import Link from "next/link";
 
+import { useRouterQuery } from "@/plugins/next-router/useRouterQuery";
 import { api } from "@/plugins/trpc/api";
 
 import type { BaseComponentProps } from "./ComponentProps";
@@ -19,13 +20,19 @@ export interface RankItemProps extends BaseComponentProps {
 	title?: string;
 	desc?: string;
 	tags?: string[];
+	categories?: { id: string; name: string; slug: string }[];
 	voteCount?: number;
+	isVoted?: boolean;
 }
 
 const RankItem = (props?: RankItemProps) => {
+	const [query, { setQuery }] = useRouterQuery();
+
 	const responsive = useResponsive();
 
 	const voteApi = api.product.upvote.useMutation();
+	const apiCtx = api.useContext();
+	console.log("props?.isVoted :>> ", props?.isVoted);
 
 	const upvoteHandler = async (id?: string) => {
 		if (!id) {
@@ -36,6 +43,7 @@ const RankItem = (props?: RankItemProps) => {
 			.mutateAsync(id)
 			.then((result) => {
 				console.log("Upvoted > result :>> ", result);
+				apiCtx.product.getAll.invalidate();
 				notification.success({ message: `Upvoted successfully!`, description: `Thank you for voting.` });
 			})
 			.catch((err) => {
@@ -63,10 +71,19 @@ const RankItem = (props?: RankItemProps) => {
 				</Link>
 				<div className="text-sm leading-5 md:text-base">{props?.desc}</div>
 				<div className="flex flex-row flex-wrap gap-x-2 gap-y-0">
-					{props?.tags?.map((hashtag, i) => <Hashtag key={`hashtag-${hashtag}-${i}`}>#{hashtag}</Hashtag>)}
+					{props?.categories?.map((cat, i) => (
+						<Hashtag key={`hashtag-${cat.id}`} onClick={() => setQuery({ category: cat.slug })}>
+							#{cat.slug}
+						</Hashtag>
+					))}
 				</div>
 			</div>
-			<SiteButtonIcon type={props?.type ?? "tertiary"} onClick={() => upvoteHandler(props?.id)}>
+
+			<SiteButtonIcon
+				type={props?.isVoted === true ? "secondary" : props?.type ?? "tertiary"}
+				tooltip={props?.isVoted === true ? "Upvoted!" : "I use this!"}
+				onClick={() => upvoteHandler(props?.id)}
+			>
 				{props?.voteCount}
 			</SiteButtonIcon>
 		</div>

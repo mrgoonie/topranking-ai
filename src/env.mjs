@@ -34,7 +34,7 @@ export const env = createEnv({
 		NEXT_PUBLIC_FACEBOOK_CLIENT_ID: z.string().optional(),
 		FACEBOOK_CLIENT_SECRET: z.string().optional(),
 		GOOGLE_SERVICE_ACCOUNT: z.string().optional(),
-		GOOGLE_STORAGE_BUCKET: z.string().optional(),
+		GOOGLE_STORAGE_BUCKET: z.string().default("digitop-cdn-sg"),
 	},
 
 	/**

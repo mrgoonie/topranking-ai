@@ -41,5 +41,8 @@
 	"tailwindCSS.classAttributes": ["class", "classes", "cl", "className", "ngClass", ".*Styles", ".*Classes"],
 	"[dockercompose]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[dotenv]": {
+		"editor.defaultFormatter": "foxundermoon.shell-format"
 	}
 }

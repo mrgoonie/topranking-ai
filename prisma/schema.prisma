@@ -156,7 +156,7 @@ model ProductCategory {
     thumb    String?
     imageUrl String?
 
-    productIds String[]  @db.ObjectId
+    productIds String[]  @default([]) @db.ObjectId
     products   Product[] @relation("ProductToCategories", fields: [productIds], references: [id])
 }
 
@@ -191,12 +191,12 @@ model Product {
 
     // categories
     categories  ProductCategory[] @relation("ProductToCategories", fields: [categoryIds], references: [id])
-    categoryIds String[]          @db.ObjectId
+    categoryIds String[]          @default([]) @db.ObjectId
 
     rank      Int?
-    voterIds  String[] @db.ObjectId
-    voters    User[]   @relation("ProductToVoters", fields: [voterIds], references: [id])
     voteCount Int      @default(0)
+    voterIds  String[] @default([]) @db.ObjectId
+    voters    User[]   @relation("ProductToVoters", fields: [voterIds], references: [id])
 
     @@index([ownerId], name: "idx_product_ownerId")
     @@index([updatedById], name: "idx_product_updatedById")

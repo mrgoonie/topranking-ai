@@ -12,7 +12,7 @@ interface SiteHeaderProps extends BaseComponentProps {}
 
 const SiteHeader = (props?: SiteHeaderProps) => {
 	const router = useRouter();
-	const { user, onSignInGoogle } = useUser();
+	const { user } = useUser();
 	// console.log("user :>> ", user);
 	const responsive = useResponsive();
 	// console.log("responsive :>> ", responsive);
@@ -34,10 +34,7 @@ const SiteHeader = (props?: SiteHeaderProps) => {
 			</div>
 			<div className="grow" />
 			<div className="flex w-full flex-row-reverse justify-between gap-4 md:w-auto md:flex-row">
-				<SiteButton
-					type={user ? "glass" : "primary"}
-					onClick={() => (user ? router.push("/submit") : onSignInGoogle())}
-				>
+				<SiteButton type={user ? "glass" : "primary"} onClick={() => router.push("/submit")}>
 					Submit AI
 				</SiteButton>
 

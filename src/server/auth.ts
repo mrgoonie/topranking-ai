@@ -2,11 +2,11 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { type GetServerSidePropsContext } from "next";
 import { type DefaultSession, getServerSession, type NextAuthOptions } from "next-auth";
 import BattleNetProvider from "next-auth/providers/battlenet";
-import CredentialsProvider from "next-auth/providers/credentials";
 import DiscordProvider from "next-auth/providers/discord";
 import FacebookProvider from "next-auth/providers/facebook";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
+import type { OAuthConfig } from "next-auth/providers/oauth";
 
 import { AppConfig } from "@/config/AppConfig";
 import { env } from "@/env.mjs";
@@ -33,12 +33,12 @@ declare module "next-auth" {
 	// }
 }
 
-const providers = [];
-if (env.NEXT_PUBLIC_DISCORD_CLIENT_ID) {
+const providers: OAuthConfig<any>[] = [];
+if (env.NEXT_PUBLIC_DISCORD_CLIENT_ID && env.DISCORD_CLIENT_SECRET) {
 	providers.push(
 		DiscordProvider({
-			clientId: env.NEXT_PUBLIC_DISCORD_CLIENT_ID as string,
-			clientSecret: env.DISCORD_CLIENT_SECRET as string,
+			clientId: env.NEXT_PUBLIC_DISCORD_CLIENT_ID,
+			clientSecret: env.DISCORD_CLIENT_SECRET,
 			profile(profile) {
 				return {
 					providerAccountId: `DISCORD-${process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID}-${profile.id}`,
@@ -132,21 +132,21 @@ if (env.NEXT_PUBLIC_BATTLENET_CLIENT_ID) {
 	);
 }
 
-providers.push(
-	CredentialsProvider({
-		id: "domain-login",
-		name: "Domain Account",
-		async authorize(credentials, req) {
-			//
+// providers.push(
+// 	CredentialsProvider({
+// 		id: "domain-login",
+// 		name: "Domain Account",
+// 		async authorize(credentials, req) {
+// 			//
 
-			throw new Error("Lỗi cmnr !");
-		},
-		credentials: {
-			username: { label: "Username", type: "text ", placeholder: "jsmith" },
-			password: { label: "Password", type: "password" },
-		},
-	})
-);
+// 			throw new Error("Lỗi cmnr !");
+// 		},
+// 		credentials: {
+// 			username: { label: "Username", type: "text ", placeholder: "jsmith" },
+// 			password: { label: "Password", type: "password" },
+// 		},
+// 	})
+// );
 
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.

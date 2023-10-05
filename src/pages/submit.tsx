@@ -34,6 +34,7 @@ export default function Submit() {
 
 	const onFinish = (values: any) => {
 		// console.log("Submiting:", values);
+		console.log("siteData :>> ", siteData);
 		createProduct
 			.mutateAsync({
 				...values,
@@ -42,7 +43,7 @@ export default function Submit() {
 				keywords: siteData.keywords,
 				tags: siteData.keywords,
 				categoryList: siteData.keywords,
-				images: siteData.images,
+				images: siteData.images.filter((img) => typeof img !== "undefined"),
 				imageUrl: siteData.imageUrl,
 			})
 			.then((newProduct) => {
@@ -148,10 +149,15 @@ export default function Submit() {
 										<Col span={16}>
 											<UploadArea
 												desc="Click to upload"
-												imageUrl={siteData.imageUrl}
-												onChange={(imgUrl) =>
-													setSiteData((_: any) => ({ ..._, imageUrl: imgUrl }))
-												}
+												imageUrl={siteData?.imageUrl}
+												onChange={(imgUrl, images) => {
+													console.log("uploaded images :>> ", images);
+													setSiteData((_siteData) => ({
+														..._siteData,
+														imageUrl: imgUrl,
+														images: [..._siteData.images, ...images],
+													}));
+												}}
 											/>
 										</Col>
 									</Row>

@@ -18,6 +18,7 @@ export async function crawlWebpage(url, opt = {}) {
 			"--disable-setuid-sandbox",
 			"--disable-dev-shm-usage",
 			"--disable-accelerated-2d-canvas",
+			"--disable-features=site-per-process",
 			"--no-first-run",
 			"--no-zygote",
 			"--single-process",

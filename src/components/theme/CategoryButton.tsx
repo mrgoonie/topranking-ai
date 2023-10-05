@@ -11,6 +11,7 @@ export interface CategoryBtnProps extends BaseComponentProps {
 	leadIcon?: ReactNode;
 	trailIcon?: ReactNode;
 	size?: "lg" | "md" | "sm";
+	onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
 const CategoryButton = (props?: CategoryBtnProps) => {
@@ -31,6 +32,7 @@ const CategoryButton = (props?: CategoryBtnProps) => {
 			style={{
 				background: "linear-gradient(145deg, rgb(215, 237, 237, 0.16) 0%, rgba(204, 235, 235, 0.00) 100%)",
 			}}
+			onClick={props?.onClick}
 		>
 			<div className="absolute -bottom-[20px] -left-[20px] h-10 w-10 rounded-[50%] bg-electric-green opacity-0 blur filter transition-all group-hover:opacity-20 group-[.active]:opacity-20" />
 			<div className="text-xs font-semibold leading-[18px] tracking-tight text-neutral-400 transition-all group-hover:text-green-400 group-[.active]:text-green-400">

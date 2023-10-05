@@ -17,25 +17,52 @@ export const productCategoryRouter = createTRPCRouter({
 	getAll: publicProcedure
 		.input(
 			z.object({
-				filter: z.any().optional(),
+				filter: z.any().default({}),
+				include: z.any().optional(),
 				pagination: z
 					.object({
 						page: z.number(),
 						itemPerPage: z.number(),
 					})
 					.optional(),
+				offset: z.object({ skip: z.number().default(0), take: z.number() }).optional(),
+				orderBy: z
+					.object({
+						createdAt: z.enum(["desc", "asc"]).optional(),
+						updatedAt: z.enum(["desc", "asc"]).optional(),
+						products: z.any().optional(),
+					})
+					.array()
+					.default([{ createdAt: "desc" }, { updatedAt: "desc" }]),
 			})
 		)
 		.query(async ({ input, ctx }) => {
-			const skip = input.pagination ? input.pagination?.itemPerPage * (input.pagination?.page - 1) : undefined;
-			const take = input.pagination ? input.pagination?.itemPerPage : undefined;
+			// validation
+			if (input.offset && input.pagination) console.warn(`When "offset" is used, "pagination" will be skipped.`);
+
+			// pagination
+			const total_items = await ctx.prisma.productCategory.count({ where: input.filter });
+			const skip =
+				input.offset?.skip ??
+				(input.pagination ? input.pagination?.itemPerPage * (input.pagination?.page - 1) : undefined);
+			const take = input.offset?.take ?? (input.pagination ? input.pagination?.itemPerPage : undefined);
+			const total_pages = typeof take !== "undefined" ? Math.ceil(total_items / take) : 0;
+
+			// start querying
 			const data = await ctx.prisma.productCategory.findMany({
+				include: input.include,
 				where: input.filter,
-				orderBy: [{ createdAt: "desc" }, { updatedAt: "desc" }],
+				orderBy: input.orderBy,
 				skip,
 				take,
 			});
-			return data;
+			// console.log("data :>> ", data);
+
+			// response
+			return {
+				data,
+				pagination: { ...input.pagination, total_items, total_pages },
+			};
 		}),
 	getById: publicProcedure.input(z.string()).query(({ input, ctx }) => {
 		return ctx.prisma.productCategory.findFirst({ where: { id: input } });
@@ -47,13 +74,7 @@ export const productCategoryRouter = createTRPCRouter({
 		.input(
 			z.object({
 				name: z.string(),
-				tags: z.array(z.string()),
-				// title: z.string().optional(),
-				intro: z.string(),
-				desc: z.string(),
-				content: z.string(),
-				keywords: z.string().array(),
-				categoryList: z.string().array().default([]),
+				slug: z.string(),
 			})
 		)
 		.mutation(async ({ input, ctx }) => {

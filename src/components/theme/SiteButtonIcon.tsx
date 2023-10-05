@@ -1,4 +1,5 @@
 import { DoubleRightOutlined } from "@ant-design/icons";
+import { Tooltip } from "antd";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import React from "react";
@@ -13,7 +14,8 @@ export interface IconBtnProps extends BaseComponentProps {
 	icon?: ReactNode;
 	trailIcon?: ReactNode;
 	size?: "lg" | "md" | "sm";
-	onClick?: () => void;
+	tooltip?: ReactNode;
+	onClick?: React.MouseEventHandler<any>;
 }
 
 const SiteButtonIcon = (props?: IconBtnProps) => {
@@ -51,21 +53,23 @@ const SiteButtonIcon = (props?: IconBtnProps) => {
 		);
 
 	return linkWrapper(
-		<div
-			className={[
-				props?.active ? "active" : "",
-				`group transition-all cursor-pointer w-[52px] h-[52px] rounded-xl justify-center items-center gap-3 inline-flex flex-none`,
-				bgClasses,
-			].join(" ")}
-			onClick={props?.onClick}
-		>
+		<Tooltip placement="top" title={props?.tooltip} color={"#4AC97E"}>
 			<div
-				className={`flex flex-col items-center text-xs font-semibold leading-normal tracking-tight transition-all ${textClasses}`}
+				className={[
+					props?.active ? "active" : "",
+					`group transition-all cursor-pointer w-[52px] h-[52px] rounded-xl justify-center items-center gap-3 inline-flex flex-none`,
+					bgClasses,
+				].join(" ")}
+				onClick={props?.onClick}
 			>
-				<span className="text-sm">{props?.icon ?? <DoubleRightOutlined className="-rotate-90" />}</span>
-				{props?.children}
+				<div
+					className={`flex flex-col items-center text-xs font-semibold leading-normal tracking-tight transition-all ${textClasses}`}
+				>
+					<span className="text-sm">{props?.icon ?? <DoubleRightOutlined className="-rotate-90" />}</span>
+					{props?.children}
+				</div>
 			</div>
-		</div>
+		</Tooltip>
 	);
 };
 
