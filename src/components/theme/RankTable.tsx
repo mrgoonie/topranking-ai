@@ -60,7 +60,7 @@ const RankTable = () => {
 				target: "_blank",
 			} as RankItemProps);
 		});
-	}, [list]);
+	}, [list, user?.id]);
 
 	return (
 		<div className="w-full max-w-3xl">

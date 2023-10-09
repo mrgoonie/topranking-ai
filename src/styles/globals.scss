@@ -24,6 +24,12 @@
 	@apply flex items-center flex-col;
 }
 
+html,
+body {
+	width: 100%;
+	overflow-x: hidden;
+}
+
 body {
 	// color: rgb(var(--foreground-rgb));
 	// background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));

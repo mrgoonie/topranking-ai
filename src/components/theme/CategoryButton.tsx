@@ -21,7 +21,7 @@ const CategoryButton = (props?: CategoryBtnProps) => {
 				{children}
 			</Link>
 		) : (
-			children
+			<>{children}</>
 		);
 
 	return linkWrapper(

@@ -15,7 +15,7 @@ export default function About() {
 							TopRanking.AI
 						</GradientHeading>
 						<div className="h-[0px] w-[60px] border border-neutral-700"></div>
-						<div className="prose prose-neutral w-[686px] text-center dark:prose-invert lg:prose-xl">
+						<div className="prose prose-neutral w-full text-center dark:prose-invert lg:prose-xl">
 							<p>
 								<span className="font-['Plus Jakarta Sans'] text-lg font-bold leading-7 tracking-tight text-lime-300">
 									TopRanking.AI

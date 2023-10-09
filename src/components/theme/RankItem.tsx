@@ -32,7 +32,6 @@ const RankItem = (props?: RankItemProps) => {
 
 	const voteApi = api.product.upvote.useMutation();
 	const apiCtx = api.useContext();
-	console.log("props?.isVoted :>> ", props?.isVoted);
 
 	const upvoteHandler = async (id?: string) => {
 		if (!id) {
