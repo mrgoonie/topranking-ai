@@ -35,13 +35,13 @@ const upload = multer({
 	limits: { fileSize: 10 * 1024 * 1024 }, // 10MB file limit
 });
 
-interface UploadedFile {
-	filename: string;
-	link: string;
-	originalUrl: string;
+export interface UploadedFile {
+	filename?: string;
+	link?: string;
+	originalUrl?: string;
 	publicUrl: string;
-	mimetype: string;
-	size: number;
+	mimetype?: string;
+	size?: number;
 }
 
 // Define API Route
@@ -99,7 +99,6 @@ const uploadHandler = async (req: any, res: any) => {
 										const publicUrl = `https://google-cdn.digitop.vn/${uploadFilePath}`;
 										// console.log(`[UPLOAD]`, "originalUrl :>> ", originalUrl);
 										// console.log(`[UPLOAD]`, "publicUrl :>> ", publicUrl);
-
 										const uploadedFile: UploadedFile = {
 											filename: file.originalname,
 											link: `https://storage.googleapis.com/${bucket.name}/${blob.name}`,
@@ -127,14 +126,14 @@ const uploadHandler = async (req: any, res: any) => {
 					status: 1,
 					data: results.map(({ publicUrl, originalUrl, mimetype, size }) => ({
 						success: true,
-						url: publicUrl,
+						publicUrl,
 						originalUrl,
 						mimetype,
 						size,
 					})),
 				});
 			} catch (error: any) {
-				console.error(`[UPLOAD]`, error.message);
+				console.error(`[UPLOAD] Error: `, error.message);
 				return res.status(500).json({
 					status: 0,
 					message: `Unable to upload [${files.map((f: any) => f.originalname)}], something went wrong.`,
@@ -142,7 +141,7 @@ const uploadHandler = async (req: any, res: any) => {
 			}
 		});
 	} catch (error: any) {
-		console.error(`[UPLOAD]`, error.message);
+		console.error(`[UPLOAD] Error:`, error.message);
 		return res.status(500).json({ status: 0, message: `Unable to upload, something went wrong.` });
 	}
 };

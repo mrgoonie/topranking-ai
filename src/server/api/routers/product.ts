@@ -101,7 +101,7 @@ export const productRouter = createTRPCRouter({
 		return ctx.prisma.product.findFirst({ where: { slug: input } });
 	}),
 	crawl: publicProcedure.input(z.string()).mutation(async ({ input, ctx }) => {
-		const urlStr = input.replace(/www./i, "");
+		const urlStr = input;
 		const siteUrl = new URL(`https://${urlStr}`);
 
 		const webpageData = await crawlWebpage(siteUrl.toString(), {

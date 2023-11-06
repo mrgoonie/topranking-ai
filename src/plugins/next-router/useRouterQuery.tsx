@@ -1,16 +1,20 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
+export type RouterQueryHook = [
+	{ [key: string]: string },
+	{
+		setQuery: (query?: any) => any;
+		deleteQuery: (keys: string[]) => any;
+		deleteAllQueryKeys: () => any;
+	},
+];
+
 /**
- *
  * USAGE:
- * - `const [query, {setQuery, deleteQuery, deleteAllQueryKeys}] = useRouterQuery()
- * @returns
+ * - `const [urlQuery, {setQuery, deleteQuery, deleteAllQueryKeys}] = useRouterQuery()
  */
-export const useRouterQuery = (): [
-	query: { [key: string]: string },
-	{ setQuery: (query?: any) => any; deleteQuery: (keys: string[]) => any; deleteAllQueryKeys: () => any },
-] => {
+export const useRouterQuery = (): RouterQueryHook => {
 	const router = useRouter();
 
 	const routerPathQuery = router.asPath;

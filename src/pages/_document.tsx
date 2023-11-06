@@ -2,6 +2,7 @@
 import Document, { Head, Html, Main, NextScript } from "next/document";
 
 import { AppConfig } from "@/config/AppConfig";
+import { env } from "@/env.mjs";
 import { fbPixelIds, gaIds, gtmIds } from "@/plugins/tracking";
 
 class MyDocument extends Document {
@@ -9,6 +10,7 @@ class MyDocument extends Document {
 		return (
 			<Html lang={AppConfig.locale}>
 				<Head>
+					<meta name="ga-id" content={env.GOOGLE_ANALYTICS} />
 					{/* // gtag */}
 					{gaIds?.length ? (
 						<>

@@ -35,6 +35,8 @@ export const env = createEnv({
 		FACEBOOK_CLIENT_SECRET: z.string().optional(),
 		GOOGLE_SERVICE_ACCOUNT: z.string().optional(),
 		GOOGLE_STORAGE_BUCKET: z.string().default("digitop-cdn-sg"),
+		GOOGLE_ANALYTICS: z.string().optional(),
+		NEXT_PUBLIC_GA: z.string().optional(),
 	},
 
 	/**
@@ -49,6 +51,7 @@ export const env = createEnv({
 		NEXT_PUBLIC_BATTLENET_CLIENT_ID: z.string().optional(),
 		NEXT_PUBLIC_APPLE_ID: z.string().optional(),
 		NEXT_PUBLIC_FACEBOOK_CLIENT_ID: z.string().optional(),
+		NEXT_PUBLIC_GA: z.string().optional(),
 	},
 
 	/**
@@ -77,6 +80,8 @@ export const env = createEnv({
 		FACEBOOK_CLIENT_SECRET: process.env.FACEBOOK_CLIENT_SECRET,
 		GOOGLE_SERVICE_ACCOUNT: process.env.GOOGLE_SERVICE_ACCOUNT,
 		GOOGLE_STORAGE_BUCKET: process.env.GOOGLE_STORAGE_BUCKET,
+		GOOGLE_ANALYTICS: process.env.GOOGLE_ANALYTICS,
+		NEXT_PUBLIC_GA: process.env.NEXT_PUBLIC_GA,
 	},
 	/**
 	 * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.

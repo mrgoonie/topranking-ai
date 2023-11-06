@@ -1,3 +1,4 @@
+import { App } from "antd";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { SessionProvider } from "next-auth/react";
@@ -40,11 +41,13 @@ const MasterPageAuth = (props: IMainProps) => {
 		<>
 			<Meta title={title} description={props.meta?.description} />
 
-			<SessionProvider>
-				<Providers {...props}>
-					<ProvidersAuth {...props}>{props.children}</ProvidersAuth>
-				</Providers>
-			</SessionProvider>
+			<App>
+				<SessionProvider>
+					<Providers {...props}>
+						<ProvidersAuth {...props}>{props.children}</ProvidersAuth>
+					</Providers>
+				</SessionProvider>
+			</App>
 		</>
 	);
 };

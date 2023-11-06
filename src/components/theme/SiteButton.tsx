@@ -65,12 +65,13 @@ const SiteButton = (props?: BtnProps) => {
 				props?.fullWidth ? "flex flex-grow" : "",
 				`group transition-all cursor-pointer box-border px-6 py-3 rounded-xl justify-center items-center gap-3 inline-flex`,
 				bgClasses,
+				props?.className ? props?.className : "",
 			].join(" ")}
 			type={props?.htmlType ? props?.htmlType : "button"}
+			onClick={props?.onClick}
 		>
 			<div
 				className={`inline-flex whitespace-nowrap text-base font-semibold leading-normal tracking-tight transition-all ${textClasses}`}
-				onClick={props?.onClick}
 			>
 				{props?.leadIcon ? (
 					<>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouterQuery } from "@/plugins/next-router/useRouterQuery";
 import { api } from "@/plugins/trpc/api";
 
+import { useUser } from "../context/UserProvider";
 import type { BaseComponentProps } from "./ComponentProps";
 import Hashtag from "./Hashtag";
 import RankIcon from "./RankIcon";
@@ -30,6 +31,7 @@ const RankItem = (props?: RankItemProps) => {
 
 	const responsive = useResponsive();
 
+	const { onSignInGoogle } = useUser();
 	const voteApi = api.product.upvote.useMutation();
 	const apiCtx = api.useContext();
 
@@ -46,7 +48,11 @@ const RankItem = (props?: RankItemProps) => {
 				notification.success({ message: `Upvoted successfully!`, description: `Thank you for voting.` });
 			})
 			.catch((err) => {
-				notification.error({ message: err.message.toString() });
+				if (err.message === "UNAUTHORIZED") {
+					onSignInGoogle();
+				} else {
+					notification.error({ message: err.message.toString() });
+				}
 			});
 	};
 

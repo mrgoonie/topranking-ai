@@ -29,7 +29,7 @@ const CategoryGroup = (props?: CategoryGroupProps) => {
 	});
 	const { data: moreResult = { data: [], pagination: undefined } } = moreQuery;
 	const { data: moreList } = moreResult;
-	console.log("moreList :>> ", moreList);
+	// console.log("moreList :>> ", moreList);
 
 	return (
 		<div className="flex flex-row flex-wrap items-center justify-center gap-2 py-6">
